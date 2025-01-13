@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Button, TextInput } from "flowbite-react";
 
 const Login = () => {
@@ -13,7 +13,8 @@ const Login = () => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault(); // Prevent form from refreshing the page
     if (type === "student") {
       navigate("/student-dashboard");
     } else if (type === "admin") {
@@ -27,7 +28,7 @@ const Login = () => {
         <h2 className="text-2xl font-bold text-center mb-6">
           {type === "student" ? "Student Login" : "Admin Login"}
         </h2>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleLogin}>
           <TextInput
             label="Username"
             name="username"
@@ -47,13 +48,30 @@ const Login = () => {
             placeholder="Enter your password"
           />
           <Button
-            onClick={handleLogin}
+            type="submit"
             gradientDuoTone="cyanToBlue"
             className="w-full py-3"
           >
             Login
           </Button>
         </form>
+
+        {type === "student" && (
+          <p className="mt-4 text-center">
+            Are you a new user?{" "}
+            <Link to="/register" className="text-blue-600 hover:underline">
+              Register here
+            </Link>
+          </p>
+        )}
+        {type === "admin" && (
+          <p className="mt-4 text-center">
+            Are you a new admin?{" "}
+            <Link to="/AdminRegister" className="text-blue-600 hover:underline">
+              Register here
+            </Link>
+          </p>
+        )}
       </div>
     </div>
   );

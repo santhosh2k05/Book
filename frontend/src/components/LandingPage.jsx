@@ -5,16 +5,22 @@ import { Link } from "react-router-dom";
 const LandingPage = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-400 to-cyan-400 text-white">
-      <h1 className="text-4xl font-bold mb-6">Placement Management System</h1>
+      {/* Header Section */}
+      <h1 className="text-4xl font-bold mb-6">PLACEMENT CONNECT</h1>
+
+      {/* Buttons Section */}
       <div className="space-y-4">
+        {/* Student Login Button */}
         <Link to="/login?type=student">
           <Button
-            gradientDuoTone="blueToGreen"
-            className="w-full text-lg px-8 py-3"
+            gradientDuoTone="cyanToBlue"
+            className="w-full text-lg px-8 py-3 mb-3"
           >
             Student Login
           </Button>
         </Link>
+
+        {/* Admin Login Button */}
         <Link to="/login?type=admin">
           <Button
             gradientDuoTone="cyanToBlue"
@@ -23,16 +29,10 @@ const LandingPage = () => {
             Admin Login
           </Button>
         </Link>
-        <Button
-          gradientDuoTone="purpleToBlue"
-          className="text-lg px-8 py-3"
-          onClick={() => alert("Hello from Flowbite!")}
-        >
-          Example Button
-        </Button>
+
+        </div>
       </div>
-    </div>
-  );
+    );
 };
 
 export default LandingPage;

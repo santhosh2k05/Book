@@ -17,11 +17,6 @@ const AdminDashboard = () => {
             Manage Students
           </Button>
         </Link>
-        <Link to="/manage-companies">
-          <Button gradientDuoTone="cyanToBlue" className="w-full py-4 text-lg">
-            Manage Companies
-          </Button>
-        </Link>
         <Link to="/view-statistics">
           <Button gradientDuoTone="purpleToBlue" className="w-full py-4 text-lg">
             View Statistics
