@@ -78,5 +78,8 @@ catch(error){
    res.status(500).send({message :error.message})
 }
 })
-
+const AdminLoginR =  require('./routes/AdminLogin.jsx')
+const UserLoginR  = require('./routes/UserLogin.js')
+app.use('/AdminLogin' , AdminLoginR)
+app.use('/UserLogin', UserLoginR)
 

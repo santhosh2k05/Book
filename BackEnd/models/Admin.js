@@ -15,7 +15,7 @@ const   Admin = mongoose.Schema({
     },
     AdminPhone  :{
         type : String ,
-        required : true 
+        required : true     
     }
 
 
