@@ -1,7 +1,7 @@
 import React from "react";
 
 const ProfileChecker = () => {
-  // Array of student profiles
+ 
   const profiles = [
     {
       id: 1,

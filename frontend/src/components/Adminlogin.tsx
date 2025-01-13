@@ -15,10 +15,10 @@ const Adminlogin: React.FC = () => {
   const [skillFilter, setSkillFilter] = useState("");
   const [cgpaFilter, setCgpaFilter] = useState<number | "">("");
 
-  // Fetch data from MongoDB via the backend API
+  
   useEffect(() => {
     const fetchStudents = async () => {
-      try {
+      try { 
         const response = await fetch("http://localhost:5000/api/students");
         const data = await response.json();
         setStudents(data);
@@ -30,7 +30,7 @@ const Adminlogin: React.FC = () => {
     fetchStudents();
   }, []);
 
-  // Filtered students
+  
   const filteredStudents = students.filter((student) => {
     const matchesSkill = skillFilter
       ? student.skills.some((skill) =>
@@ -45,13 +45,13 @@ const Adminlogin: React.FC = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen p-10">
-      <h1 className="text-3xl font-bold text-center mb-6">Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold text-center mb-6" >Admin Dashboard</h1>
 
-      {/* Filters */}
+  
       <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
         <h2 className="text-xl font-semibold mb-4">Filter Students</h2>
         <div className="flex flex-col sm:flex-row gap-4">
-          {/* Skill Filter */}
+  
           <div className="flex-1">
             <label htmlFor="skillFilter" className="block text-sm font-semibold mb-2">
               Filter by Skill:
@@ -65,7 +65,8 @@ const Adminlogin: React.FC = () => {
               placeholder="Enter skill (e.g., React)"
             />
           </div>
-          {/* CGPA Filter */}
+  
+  
           <div className="flex-1">
             <label htmlFor="cgpaFilter" className="block text-sm font-semibold mb-2">
               Filter by CGPA:
@@ -82,7 +83,7 @@ const Adminlogin: React.FC = () => {
         </div>
       </div>
 
-      {/* Student List */}
+  
       <div className="bg-white shadow-lg rounded-lg p-6">
         <h2 className="text-xl font-semibold mb-4">Student Details</h2>
         {filteredStudents.length > 0 ? (

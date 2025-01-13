@@ -12,7 +12,7 @@ const Register = () => {
         hackerRankLink: "",
         cgpa: "",
         leetcodeLink: "",
-        isPlaced: "nonPlaced", // default is nonPlaced
+        isPlaced: "nonPlaced", 
         projectsCount: "",
     });
 

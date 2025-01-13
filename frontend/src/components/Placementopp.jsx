@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Button } from "flowbite-react";
 
 const PlacementOpportunities = () => {
-  // Example data for placement opportunities
+  
   const opportunities = [
     {
       id: 1,

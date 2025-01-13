@@ -14,28 +14,27 @@ const StudentDashboard = () => {
       </p>
       
       <div className="space-y-6 w-full max-w-lg">
-        {/* Placement Opportunities Button */}
-        <Link to={{pathname: "/PlacementOppurtunities"}} className="w-full" aria-label="View Placement Opportunities">
+              <Link to={{pathname: "/PlacementOppurtunities"}} className="w-full" aria-label="View Placement Opportunities">
           <Button gradientDuoTone="cyanToBlue" className="w-full py-4 text-lg mb-4">
             View Placement Opportunities
           </Button>
         </Link>
 
-      {/* Application Status Button */}
+      
       <Link to="/application-status" className="w-full">
         <Button gradientDuoTone="cyanToBlue" className="w-full py-4 text-lg">
           Check Application Status
         </Button>
       </Link>
 
-      {/* View Profile Button */}
+      
       <Link to={{pathname: "/StudentDashboard"}} className="w-full">
         <Button gradientDuoTone="purpleToBlue" className="w-full py-4 text-lg" >
           View Profile
         </Button>
       </Link>
 
-        {/* View Profile Button */}
+        
         <Link to={{pathname:"/Profile"}} className="w-full" aria-label="View Profile">
           <Button gradientDuoTone="cyanToBlue" className="w-full py-4 text-lg">
             View Profile

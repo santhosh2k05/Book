@@ -22,8 +22,7 @@ const AdminRegister = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    // Here you would handle the registration logic (e.g., API call)
-    // For now, we are just redirecting to the login page
+   
     navigate("/login?type= admin");
   };
 

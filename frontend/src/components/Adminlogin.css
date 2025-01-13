@@ -1,4 +1,4 @@
-/* General Styles */
+
 body {
     margin: 0;
     font-family: 'Inter', sans-serif;
@@ -10,7 +10,7 @@ body {
     color: #1d3557;
   }
   
-  /* Admin Dashboard Container */
+  
   .admin-dashboard {
     background-color: #f8f9fa;
     min-height: 100vh;
@@ -20,7 +20,7 @@ body {
     align-items: center;
   }
   
-  /* Filters Section */
+  
   .filters {
     background: #ffffff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -61,7 +61,7 @@ body {
     outline: none;
   }
   
-  /* Student Details Section */
+  
   .student-details {
     background: #ffffff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -112,7 +112,7 @@ body {
     color: #e63946;
   }
   
-  /* Responsive Design */
+  
   @media (max-width: 768px) {
     .filters .filter-group {
       flex-direction: column;

@@ -51,9 +51,9 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-400 to-cyan-400">
-      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center mb-6">
+    <div className="flex justify-center items-center h-screen bg-gradient-to-r bg-black">
+      <div className="w-full max-w-md p-6 bg-slate-500 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold text-center mb-6 text-white">
           {type === "student" ? "Student Login" : "Admin Login"}
         </h2>
         <form className="space-y-4" onSubmit={handleLogin}>
@@ -66,7 +66,7 @@ const Login = () => {
             required
             placeholder="Enter your username"
           />
-          <TextInput
+          <TextInput 
             label="Password"
             name="password"
             type="password"
@@ -77,8 +77,8 @@ const Login = () => {
           />
           <Button
             type="submit"
-            gradientDuoTone="cyanToBlue"
-            className="w-full py-3"
+            gradientDuoTone="black"
+            className="w-full py-3 bg-white"
           >
             Login
           </Button>
@@ -87,7 +87,7 @@ const Login = () => {
         {type === "student" && (
           <p className="mt-4 text-center">
             Are you a new user?{" "}
-            <Link to="/register" className="text-blue-600 hover:underline">
+            <Link to="/register" className="text-black-600 hover:underline">
               Register here
             </Link>
           </p>
@@ -95,7 +95,7 @@ const Login = () => {
         {type === "admin" && (
           <p className="mt-4 text-center">
             Are you a new admin?{" "}
-            <Link to="/AdminRegister" className="text-blue-600 hover:underline">
+            <Link to="/AdminRegister" className="text-white hover:underline">
               Register here
             </Link>
           </p>
