@@ -1,11 +1,11 @@
 import express from "express"
 import { port , mongodb} from "./config.js"
 import mongoose  from "mongoose"
-import AdminPage from "./models/Admin.js"
-import UserPage from "./models/User.js"
 import Admin from "./routes/AdminLogin.js"
 import User from "./routes/UserLogin.js"
 import cors from "cors";
+import Areg from "./routes/Adminreg.js"
+import Ureg from "./routes/Userreg.js"
 
 mongoose
     .connect(mongodb)
@@ -30,66 +30,8 @@ app.use(express.json())
 app.listen(port,()=>{
     console.log(`app listening to port : ${port}`)
 })
-app.post('/UserRegistration', async(req,res)=>{
-     try{
-        if(
-            !req.body.StudentName||
-            !req.body.Studentpassword || 
-            !req.body.StudentRegNo||
-            !req.body.StudentEmail||
-            !req.body.CGPA ||
-            !req.body.DOB||
-            !req.body.placedInfo
-             ){
-            return res.status(404).send({
-                message :"send all fields   "
-            })
-        }
-        const student ={
-            StudentName: req.body.StudentName,
-            Studentpassword : req.body.Studentpassword,
-            StudentRegNo : req.body.StudentRegNo,
-            StudentEmail : req.body.StudentEmail,
-            StudentCGPA : req.body.CGPA,
-            StudentDOB : req.body.DOB,
-            StudentplacedInfo : req.body.placedInfo
-
-        }
-        const students= await UserPage.create(student)
-        return res.status(201).send(students)
-     }
-     catch(error){
-        console.log("error")
-        res.status(500).send({message :error.message})
-     }
-
-})
-app.post('/adminRegistration', async(req ,res)=>{
-    try {
-    if(
-        !req.body.AdminName ||
-        !req.body.AdminPassword ||
-        !req.body.AdminEmail||
-        !req.body.AdminPhone
-    ){
-        return res.status(404).send({
-            message : "Message All Fields"  
-        })
-    }
-    const  Admin  ={
-        AdminName : req.body.AdminName,
-        AdminPassword : req.body.AdminPassword,
-        AdminEmail : req.body.AdminEmail,
-        AdminPhone : req.body.AdminPhone
-    }
-    const Admins = await AdminPage.create(Admin)
-    return res.status(201).send(Admins)
-}
-catch(error){
-   console.log("error")
-   res.status(500).send({message :error.message})
-}
-})
+app.use('/api/UserRegistration',Ureg)
+app.use('/api/AdminRegistration',Areg)
 app.use('/api/Admin' , Admin)
 app.use('/api/User', User)
 
