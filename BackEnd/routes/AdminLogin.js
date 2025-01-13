@@ -19,8 +19,7 @@ Admin.post("/", async (req, res) => {
       return res.status(404).send({ message: "Admin not found" });
     }
 
-    const isPasswordValid = await bcrypt.compare(AdminPassword, admin.AdminPassword);
-    if (!isPasswordValid) {
+    if (!AdminPassword == admin.AdminPassword) {
       return res.status(401).send({ message: "Invalid credentials" });
     }
 

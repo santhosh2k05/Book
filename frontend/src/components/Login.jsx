@@ -32,7 +32,21 @@ const Login = () => {
       else if(LoggedIn.status == 401) alert("Password Wrong");
       else navigate("/student-dashboard")
     } else if (type === "admin") {
-      navigate("/admin-dashboard");
+      if(!credentials.username || !credentials.password) alert("Fields are Required")
+        const LoggedIn = await fetch("/api/Admin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            AdminName: credentials.username,
+            AdminPassword: credentials.password
+          })
+        })
+        console.log(LoggedIn)
+        if(LoggedIn.status == 404) alert("User Not Found");
+        else if(LoggedIn.status == 401) alert("Password Wrong");
+        else navigate("/student-dashboard")
     }
   };
 

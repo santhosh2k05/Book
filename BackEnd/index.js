@@ -90,6 +90,6 @@ catch(error){
    res.status(500).send({message :error.message})
 }
 })
-app.use('/AdminLogin' , Admin)
+app.use('/api/Admin' , Admin)
 app.use('/api/User', User)
 
