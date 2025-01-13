@@ -23,7 +23,7 @@ const AdminRegister = () => {
     e.preventDefault();
     // Here you would handle the registration logic (e.g., API call)
     // For now, we are just redirecting to the login page
-    navigate("/admin-login");
+    navigate("/login?type= admin");
   };
 
   return (
@@ -35,7 +35,7 @@ const AdminRegister = () => {
             label="Full Name"
             name="AdminName"
             type="text"
-            value={adminDetails.name}
+            value={adminDetails.AdminName}
             onChange={handleChange}
             required
             placeholder="Enter your full name"
@@ -44,7 +44,7 @@ const AdminRegister = () => {
             label="Email"
             name="AdminEmail"
             type="email"
-            value={adminDetails.email}
+            value={adminDetails.AdminEmail}
             onChange={handleChange}
             required
             placeholder="Enter your email"
@@ -53,7 +53,7 @@ const AdminRegister = () => {
             label="AdminPassword"
             name="password"
             type="password"
-            value={adminDetails.password}
+            value={adminDetails.AdminPassword}
             onChange={handleChange}
             required
             placeholder="Enter your password"
