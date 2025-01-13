@@ -28,8 +28,8 @@ const StudentDashboard = () => {
       </Link>
 
       {/* View Profile Button */}
-      <Link to="/profile" className="w-full">
-        <Button gradientDuoTone="purpleToBlue" className="w-full py-4 text-lg">
+      <Link to={{pathname: "/StudentDashboard"}} className="w-full">
+        <Button gradientDuoTone="purpleToBlue" className="w-full py-4 text-lg" >
           View Profile
         </Button>
       </Link>

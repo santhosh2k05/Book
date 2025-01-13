@@ -6,6 +6,7 @@ import StudentDashboard from './components/StudentDashboard';  // Add other comp
 import AdminDashboard from './components/AdminDashboard';
 import LandingPage from "./components/LandingPage";
 import AdminRegister from "./components/AdminRegister";
+import StudentList from "./components/Studentlogin";
 
 const App = () => {
   return (
@@ -17,7 +18,7 @@ const App = () => {
         <Route path="/student-dashboard" element={<StudentDashboard />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/" element={<LandingPage/>}></Route>
-        {/* Add other routes as needed */}
+        <Route path="/StudentDashboard" element={<StudentList />}></Route>
       </Routes>
     </Router>
   );
