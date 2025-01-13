@@ -2,10 +2,10 @@ import express from "express";
 import bcrypt from "bcrypt";
 import UserPage from "../models/User.js"; 
 
-const router = express.Router();
+const User = express.Router();
 
 
-router.post("/", async (req, res) => {
+User.post("/", async (req, res) => {
   try {
     const { StudentName, Studentpassword } = req.body;
 
@@ -33,4 +33,4 @@ router.post("/", async (req, res) => {
   }
 });
 
-export default router;
+export default User;

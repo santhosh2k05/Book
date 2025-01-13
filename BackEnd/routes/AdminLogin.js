@@ -2,10 +2,10 @@ import express from "express";
 import bcrypt from "bcrypt";
 import AdminPage from "../models/Admin.js"; 
 
-const router = express.Router();
+const Admin = express.Router();
 
 
-router.post("/", async (req, res) => {
+Admin.post("/", async (req, res) => {
   try {
     const { AdminName, AdminPassword } = req.body;
 
@@ -31,4 +31,4 @@ router.post("/", async (req, res) => {
   }
 });
 
-export default router;
+export default Admin;

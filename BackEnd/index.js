@@ -3,6 +3,9 @@ import { port , mongodb} from "./config.js"
 import mongoose  from "mongoose"
 import AdminPage from "./models/Admin.js"
 import UserPage from "./models/User.js"
+import Admin from "./routes/AdminLogin.js"
+import User from "./routes/UserLogin.js"
+
 mongoose
     .connect(mongodb)
     .then(()=>{
@@ -80,8 +83,6 @@ catch(error){
    res.status(500).send({message :error.message})
 }
 })
-const AdminLoginR =  require('./routes/AdminLogin.jsx')
-const UserLoginR  = require('./routes/UserLogin.js')
-app.use('/AdminLogin' , AdminLoginR)
-app.use('/UserLogin', UserLoginR)
+app.use('/AdminLogin' , Admin)
+app.use('/UserLogin', User)
 
