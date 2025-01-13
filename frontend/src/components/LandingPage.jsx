@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 const LandingPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-400 to-cyan-400 text-white">
+    <>    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r bg-black text-white">
       {/* Header Section */}
-      <h1 className="text-4xl font-bold mb-6">PLACEMENT CONNECT</h1>
+      <h1 className="text-4xl font-bold mb-6 text-white" >PLACEMENT CONNECT</h1>
 
       {/* Buttons Section */}
       <div className="space-y-4">
@@ -32,6 +32,7 @@ const LandingPage = () => {
 
         </div>
       </div>
+      </>
     );
 };
 

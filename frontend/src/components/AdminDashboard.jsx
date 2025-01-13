@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 const AdminDashboard = () => {
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 to-cyan-400 text-white p-8"
+      className="flex flex-col items-center justify-center min-h-screen bg-black to-purple-500 text-white p-8"
     >
-      <h1 className="text-4xl font-bold mb-6">Admin Dashboard</h1>
+      <h1 className="text-6xl font-bold mb-6 text-rose-600">Admin Dashboard</h1>
       <p className="text-lg mb-8">
         Manage students, companies, and placement statistics.
       </p>

@@ -12,6 +12,7 @@ const AdminRegister = () => {
     phoneNumber: "",
   });
 
+  
   const handleChange = (e) => {
     setAdminDetails({
       ...adminDetails,
@@ -62,7 +63,7 @@ const AdminRegister = () => {
             label="AdminPhone"
             name="phoneNumber"
             type="text"
-            value={adminDetails.phoneNumber}
+            value={adminDetails.AdminPhone}
             onChange={handleChange}
             required
             placeholder="Enter your phone number"
