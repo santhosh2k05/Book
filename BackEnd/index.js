@@ -26,6 +26,7 @@ app.post('/UserRegistration', async(req,res)=>{
             !req.body.StudentName||
             !req.body.Studentpassword || 
             !req.body.StudentRegNo||
+            !req.body.StudentEmail||
             !req.body.CGPA ||
             !req.body.DOB||
             !req.body.placedInfo
@@ -38,6 +39,7 @@ app.post('/UserRegistration', async(req,res)=>{
             StudentName: req.body.StudentName,
             Studentpassword : req.body.Studentpassword,
             StudentRegNo : req.body.StudentRegNo,
+            StudentEmail : req.body.StudentEmail,
             StudentCGPA : req.body.CGPA,
             StudentDOB : req.body.DOB,
             StudentplacedInfo : req.body.placedInfo
