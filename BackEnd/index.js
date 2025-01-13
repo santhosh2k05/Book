@@ -30,8 +30,8 @@ app.use(express.json())
 app.listen(port,()=>{
     console.log(`app listening to port : ${port}`)
 })
-app.use('/UserRegistration',Ureg)
-app.use('/AdminRegistration',Areg)
+app.use('/api/UserRegistration',Ureg)
+app.use('/api/AdminRegistration',Areg)
 app.use('/api/Admin' , Admin)
-app.use('/User', User)
+app.use('/api/User', User)
 
