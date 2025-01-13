@@ -14,7 +14,6 @@ interface Student {
 const StudentList = () => {
   const [students, setStudents] = useState<Student[]>([]);
 
-  // Fetch data from the backend
   useEffect(() => {
     const fetchStudents = async () => {
       try {
@@ -64,7 +63,7 @@ const StudentList = () => {
                       href={student.placementLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-500 hover:underline"
+                      className="text-black-500 hover:underline"
                     >
                       View
                     </a>

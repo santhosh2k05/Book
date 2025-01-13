@@ -5,7 +5,7 @@ import { Button, TextInput } from "flowbite-react";
 const Login = () => {
   const navigate = useNavigate();
   const { search } = useLocation();
-  const type = new URLSearchParams(search).get("type"); // Determine if "student" or "admin"
+  const type = new URLSearchParams(search).get("type");
 
   const [credentials, setCredentials] = useState({ username: "", password: "" });
 
@@ -14,7 +14,7 @@ const Login = () => {
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent form from refreshing the page
+    e.preventDefault(); 
     if (type === "student") {
       if(!credentials.username || !credentials.password) alert("Fields are Required")
       const LoggedIn = await fetch("/api/User", {
@@ -46,7 +46,7 @@ const Login = () => {
         console.log(LoggedIn)
         if(LoggedIn.status == 404) alert("User Not Found");
         else if(LoggedIn.status == 401) alert("Password Wrong");
-        else navigate("/student-dashboard")
+        else navigate("/admin-dashboard")
     }
   };
 

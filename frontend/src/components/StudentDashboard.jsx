@@ -20,7 +20,6 @@ const StudentDashboard = () => {
           </Button>
         </Link>
 
-<<<<<<< HEAD
       {/* Application Status Button */}
       <Link to="/application-status" className="w-full">
         <Button gradientDuoTone="cyanToBlue" className="w-full py-4 text-lg">
@@ -34,15 +33,7 @@ const StudentDashboard = () => {
           View Profile
         </Button>
       </Link>
-=======
-        {/* View Profile Button */}
-        <Link to="/profile" className="w-full" aria-label="View Profile">
-          <Button gradientDuoTone="cyanToBlue" className="w-full py-4 text-lg">
-            View Profile
-          </Button>
-        </Link>
-      </div>
->>>>>>> c83620820b42748d7e2f281949878aa5a3eef150
+    </div>
     </div>
   );
 };

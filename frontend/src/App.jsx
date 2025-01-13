@@ -8,6 +8,7 @@ import AdminDashboard from './components/AdminDashboard';
 import LandingPage from "./components/LandingPage";
 import AdminRegister from "./components/AdminRegister";
 import StudentList from "./components/Studentlogin";
+import Adminlogin from "./components/Adminlogin";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/" element={<LandingPage/>}></Route>
         <Route path="/StudentDashboard" element={<StudentList />}></Route>
+        <Route path="/manage-students" element={<Adminlogin />}/>
       </Routes>
     </Router>
   );
