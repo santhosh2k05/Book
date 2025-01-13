@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "flowbite-react";
 import { Link } from "react-router-dom";
 import PlacementOpportunities from "./Placementopp";
+import ProfileChecker from "./Profile";
 
 const StudentDashboard = () => {
   return (
@@ -33,7 +34,15 @@ const StudentDashboard = () => {
           View Profile
         </Button>
       </Link>
-    </div>
+
+        {/* View Profile Button */}
+        <Link to={{pathname:"/Profile"}} className="w-full" aria-label="View Profile">
+          <Button gradientDuoTone="cyanToBlue" className="w-full py-4 text-lg">
+            View Profile
+          </Button>
+        </Link>
+      </div>
+
     </div>
   );
 };

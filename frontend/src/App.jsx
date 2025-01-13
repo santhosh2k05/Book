@@ -7,8 +7,6 @@ import PlacementOpportunities from "./components/Placementopp";
 import AdminDashboard from './components/AdminDashboard';
 import LandingPage from "./components/LandingPage";
 import AdminRegister from "./components/AdminRegister";
-import StudentList from "./components/Studentlogin";
-import Adminlogin from "./components/Adminlogin";
 
 const App = () => {
   return (
@@ -19,6 +17,7 @@ const App = () => {
         <Route path="/AdminRegister" element={<AdminRegister/>}/>
         <Route path="/student-dashboard" element={<StudentDashboard />} />
         <Route path="/PlacementOppurtunities" element={<PlacementOpportunities/>}/>
+        <Route path="/ProfileChecker" element={<ProfileChecker/>}/>
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/" element={<LandingPage/>}></Route>
         <Route path="/StudentDashboard" element={<StudentList />}></Route>
