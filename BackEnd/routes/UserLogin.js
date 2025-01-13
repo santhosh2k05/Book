@@ -7,10 +7,10 @@ const User = express.Router();
 
 User.post("/", async (req, res) => {
   try {
+    console.log(req.body)
     const { StudentName, Studentpassword } = req.body;
-
    
-    if (!StudentName || !Studentpassword) {
+    if (!StudentName || !Studentpassword) { 
       return res.status(400).send({ message: "StudentName and Studentpassword are required" });
     }
 
@@ -20,12 +20,10 @@ User.post("/", async (req, res) => {
       return res.status(404).send({ message: "User not found" });
     }
 
-    const isPasswordValid = await bcrypt.compare(Studentpassword, user.Studentpassword);
-    if (!isPasswordValid) {
+    if (!Studentpassword == user.Studentpassword) {
       return res.status(401).send({ message: "Invalid credentials" });
     }
 
-   
     res.status(200).send({ message: "Login successful", user });
   } catch (error) {
     console.error("Error during user login:", error.message);

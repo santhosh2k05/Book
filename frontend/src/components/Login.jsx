@@ -13,10 +13,24 @@ const Login = () => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault(); // Prevent form from refreshing the page
     if (type === "student") {
-      navigate("/student-dashboard");
+      if(!credentials.username || !credentials.password) alert("Fields are Required")
+      const LoggedIn = await fetch("/api/User", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          StudentName: credentials.username,
+          Studentpassword: credentials.password
+        })
+      })
+      console.log(LoggedIn)
+      if(LoggedIn.status == 404) alert("User Not Found");
+      else if(LoggedIn.status == 401) alert("Password Wrong");
+      else navigate("/student-dashboard")
     } else if (type === "admin") {
       navigate("/admin-dashboard");
     }

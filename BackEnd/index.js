@@ -5,6 +5,7 @@ import AdminPage from "./models/Admin.js"
 import UserPage from "./models/User.js"
 import Admin from "./routes/AdminLogin.js"
 import User from "./routes/UserLogin.js"
+import cors from "cors";
 
 mongoose
     .connect(mongodb)
@@ -19,6 +20,12 @@ mongoose
         console.log("error")
     })
 const app =  express()
+app.use(express.json())
+app.use(cors({
+    origin:"http://localhost:5173",
+    methods:'GET,POST,PUT,DELETE',
+    allowedHeaders:'Content-Type,Authorization'
+}))
 app.use(express.json())
 app.listen(port,()=>{
     console.log(`app listening to port : ${port}`)
@@ -84,5 +91,5 @@ catch(error){
 }
 })
 app.use('/AdminLogin' , Admin)
-app.use('/UserLogin', User)
+app.use('/api/User', User)
 
