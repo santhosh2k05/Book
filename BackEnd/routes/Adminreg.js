@@ -8,7 +8,8 @@ Areg.post('/', async(req ,res)=>{
         !req.body.AdminName ||
         !req.body.AdminPassword ||
         !req.body.AdminEmail||
-        !req.body.AdminPhone
+        !req.body.AdminPhone|
+        !req.body.AdminDEPT
     ){
         return res.status(404).send({
             message : "Message All Fields"  
@@ -18,7 +19,9 @@ Areg.post('/', async(req ,res)=>{
         AdminName : req.body.AdminName,
         AdminPassword : req.body.AdminPassword,
         AdminEmail : req.body.AdminEmail,
-        AdminPhone : req.body.AdminPhone
+        AdminPhone : req.body.AdminPhone,
+        AdminDEPT : req.body.AdminDEPT
+
     }
     const Admins = await AdminPage.create(Admin)
     return res.status(201).send(Admins)

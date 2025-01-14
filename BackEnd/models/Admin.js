@@ -16,6 +16,10 @@ const   Admin = mongoose.Schema({
     AdminPhone  :{
         type : String ,
         required : true     
+    },
+    AdminDEPT :{
+        type : String,
+        required : true
     }
 
 

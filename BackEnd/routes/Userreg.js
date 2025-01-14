@@ -12,7 +12,8 @@ Ureg.post('/', async(req,res)=>{
            !req.body.CGPA ||
            !req.body.DOB||
            !req.body.skills||
-           !req.body.placedInfo
+           !req.body.placedInfo||
+           !req.body.UserDEPT
             ){
            return res.status(404).send({
                message :"send all fields"
@@ -26,7 +27,9 @@ Ureg.post('/', async(req,res)=>{
            StudentCGPA : req.body.CGPA,
            StudentDOB : req.body.DOB,
            StudentSkills : req.body.skills,
-           StudentplacedInfo : req.body.placedInfo
+           StudentplacedInfo : req.body.placedInfo,
+           StudentDEPT : req.body.UserDEPT
+
 
        }
        const students= await UserPage.create(student)

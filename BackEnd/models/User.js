@@ -32,6 +32,10 @@ const   user = mongoose.Schema({
         type : String,
         required : false 
     }   ,
+    UserDEPT :{
+        type : String,
+        required : true
+    }
 
 
 },{
