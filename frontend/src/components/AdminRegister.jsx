@@ -63,7 +63,7 @@ const AdminRegister = () => {
             label="Full Name"
             name="AdminName"
             type="text"
-            value={adminDetails.Name}
+            value={adminDetails.AdminName}
             onChange={handleChange}
             required
             placeholder="Enter your full name"
@@ -72,7 +72,7 @@ const AdminRegister = () => {
             label="Email"
             name="AdminEmail"
             type="email"
-            value={adminDetails.Email}
+            value={adminDetails.AdminEmail}
             onChange={handleChange}
             required
             placeholder="Enter your email"
@@ -81,7 +81,7 @@ const AdminRegister = () => {
             label="Department"
             name="AdminDEPT"
             type="text"
-            value={adminDetails.DEPT}
+            value={adminDetails.AdminDEPT}
             onChange={handleChange}
             required
             placeholder="Enter your department"
@@ -90,7 +90,7 @@ const AdminRegister = () => {
             label="Password"
             name="AdminPassword"
             type="password"
-            value={adminDetails.Password}
+            value={adminDetails.AdminPassword}
             onChange={handleChange}
             required
             placeholder="Enter your password"
@@ -99,7 +99,7 @@ const AdminRegister = () => {
             label="Phone Number"
             name="AdminPhone"
             type="text"
-            value={adminDetails.Phone}
+            value={adminDetails.AdminPhone}
             onChange={handleChange}
             required
             placeholder="Enter your phone number"
