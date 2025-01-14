@@ -18,6 +18,7 @@ const AdminRegister = () => {
       ...adminDetails,
       [e.target.name]: e.target.value,
     });
+    console.log(adminDetails)
   };
 
   const handleRegister = async (e) => {
@@ -30,13 +31,12 @@ const AdminRegister = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-        AdminName: setAdminDetails.Name,
-        AdminEmail: setAdminDetails.Email,
-        AdminPassword: setAdminDetails.Password,
-        AdminPhone: setAdminDetails.Phone,
-        AdminDEPT: setAdminDetails.DEPT
-
-      })
+        AdminName: adminDetails.AdminName,
+        AdminEmail: adminDetails.AdminEmail,
+        AdminPassword: adminDetails.AdminPassword,
+        AdminPhone: adminDetails.AdminPhone,
+        AdminDEPT: adminDetails.AdminDEPT
+        })
       }) 
       const result = await response.json();
 

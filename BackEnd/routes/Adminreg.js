@@ -4,6 +4,7 @@ import AdminPage from "../models/Admin.js";
 const Areg = express.Router();
 Areg.post('/', async(req ,res)=>{
     try {
+        console.log("Function Calle")
     if(
         !req.body.AdminName ||
         !req.body.AdminPassword ||
@@ -11,6 +12,7 @@ Areg.post('/', async(req ,res)=>{
         !req.body.AdminPhone|
         !req.body.AdminDEPT
     ){
+        console.log(req.body)
         return res.status(404).send({
             message : "Message All Fields"  
         })
