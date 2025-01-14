@@ -27,9 +27,9 @@ const AdminRegister = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-400 to-cyan-400">
-      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center mb-6">Admin Registration</h2>
+    <div className="flex justify-center items-center h-screen bg-gradient-to-r bg-black">
+      <div className="w-full max-w-md bg-black shadow-lg border border-white p-8 rounded-lg">
+        <h2 className="text-2xl font-bold text-center text-white mb-6">Admin Registration</h2>
         <form className="space-y-4" onSubmit={handleRegister}>
           <TextInput
             label="Full Name"
@@ -48,6 +48,15 @@ const AdminRegister = () => {
             onChange={handleChange}
             required
             placeholder="Enter your email"
+          />
+          <TextInput
+            label="Department"
+            name="AdminDep"
+            type="Department"
+            value={adminDetails.AdminEmail}
+            onChange={handleChange}
+            required
+            placeholder="Enter your department"
           />
           <TextInput
             label="AdminPassword"
@@ -69,8 +78,7 @@ const AdminRegister = () => {
           />
           <Button
             type="submit"
-            gradientDuoTone="cyanToBlue"
-            className="w-full py-3"
+            className="w-full text-lg px-8 py-3 font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300"
           >
             Register
           </Button>
