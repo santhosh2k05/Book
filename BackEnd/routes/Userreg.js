@@ -11,6 +11,7 @@ Ureg.post('/', async(req,res)=>{
            !req.body.StudentEmail||
            !req.body.CGPA ||
            !req.body.DOB||
+           !req.body.skills||
            !req.body.placedInfo
             ){
            return res.status(404).send({
@@ -24,6 +25,7 @@ Ureg.post('/', async(req,res)=>{
            StudentEmail : req.body.StudentEmail,
            StudentCGPA : req.body.CGPA,
            StudentDOB : req.body.DOB,
+           StudentSkills : req.body.skills,
            StudentplacedInfo : req.body.placedInfo
 
        }

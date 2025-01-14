@@ -24,6 +24,10 @@ const   user = mongoose.Schema({
         type : String ,
         required : false 
     },
+    Skills:{
+            type : String,
+            required : false
+    },
     placedInfo    :{
         type : String,
         required : false 
