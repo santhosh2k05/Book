@@ -1,5 +1,4 @@
 import express from "express";
-import bcrypt from "bcrypt";
 import UserPage from "../models/User.js"; 
 
 const User = express.Router();
@@ -20,7 +19,7 @@ User.post("/", async (req, res) => {
       return res.status(404).send({ message: "User not found" });
     }
 
-    if (!Studentpassword == user.Studentpassword) {
+    if (Studentpassword!== user.Studentpassword) {
       return res.status(401).send({ message: "Invalid credentials" });
     }
 

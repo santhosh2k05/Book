@@ -19,7 +19,7 @@ Admin.post("/", async (req, res) => {
       return res.status(404).send({ message: "Admin not found" });
     }
 
-    if (!AdminPassword == admin.AdminPassword) {
+    if (AdminPassword!== admin.AdminPassword) {
       return res.status(401).send({ message: "Invalid credentials" });
     }
 
