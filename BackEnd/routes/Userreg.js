@@ -1,37 +1,51 @@
 import express from "express";
 import AdminPage from "../models/Admin.js"; 
+import UserPage from "../models/User.js";
 
-const Areg = express.Router();
+const  Ureg = express.Router();
+Ureg.use(express.json())
 
-Areg.post('/', async(req ,res)=>{
+Ureg.post('/', async(req ,res)=>{
     try {
         // Validation to ensure all fields are provided
         if(
-            !req.body.AdminName ||
-            !req.body.AdminPassword ||
-            !req.body.AdminEmail ||
-            !req.body.AdminPhone ||
-            !req.body.AdminDEPT
+            !req.body.StudentName ||
+            !req.body.StudentRegNo ||
+            !req.body.StudentDOB||
+            !req.body.StudentEmail ||
+            !req.body.StudentPassword||
+            !req.body.StudentCGPA||
+            !req.body.StudentDEPT||
+            !req.body.StudentPlatform ||
+            !req.body.StudentPlacedInfo||
+            !req.body.StudentSkills
+            
         ){
+            console.log(req.body)
             return res.status(400).send({
                 message: "Please fill in all fields"
             });
         }
 
         // Creating an admin object from the request body
-        const Admin = {
-            AdminName: req.body.AdminName,
-            AdminPassword: req.body.AdminPassword,
-            AdminEmail: req.body.AdminEmail,
-            AdminPhone: req.body.AdminPhone,
-            AdminDEPT: req.body.AdminDEPT
+        const User = {
+            StudentName :req.body.StudentName,
+            StudentRegNo : req.body.StudentRegNo,
+            StudentDOB: req.body.StudentDOB,
+            StudentEmail :req.body.StudentEmail ,
+            StudentPassword : req.body.StudentPassword,   
+            StudentCGPA :req.body.StudentCGPA,
+            StudentDEPT :req.body. StudentDEPT,
+            StudentPlatform: req.body.StudentPlatform,
+            StudentPlacedInfo:req.body.StudentPlacedInfo,
+            StudentSkills :req.body.StudentSkills
         };
-
-        const newAdmin = await AdminPage.create(Admin);
+ 
+        const Users = await UserPage.create(User);
 
         return res.status(201).send({
-            message: "Admin registered successfully!",
-            admin: newAdmin
+            message: "Student registered successfully!",
+            admin: Users
         });
     } catch (error) {
         console.log(error);
@@ -42,4 +56,4 @@ Areg.post('/', async(req ,res)=>{
     }
 });
 
-export default Areg;
+export default Ureg;

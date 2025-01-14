@@ -24,7 +24,7 @@ const Login = () => {
         },
         body: JSON.stringify({
           StudentName: credentials.username,
-          Studentpassword: credentials.password
+          StudentPassword: credentials.password
         })
       })
       console.log(LoggedIn)

@@ -6,28 +6,61 @@ const Register = () => {
     const navigate = useNavigate();
 
     const [registrationDetails, setRegistrationDetails] = useState({
-        username: "",
-        email: "",
-        password: "",
-        hackerRankLink: "",
-        cgpa: "",
-        leetcodeLink: "",
-        isPlaced: "nonPlaced", 
-        projectsCount: "",
+        StudentName : "",
+        StudentRegNo:"",
+        StudentDOB: "",
+        StudentEmail : "",
+        StudentPassword: "",
+        StudentCGPA: "",
+        StudentDEPT: "",
+        StudentPlatform: "",
+        StudentPlacedInfo : "",
+        StudentSkills : "",
     });
 
-    const handleChange = (e) => {
+    const handleChange =  (e) => {
         setRegistrationDetails({
             ...registrationDetails,
             [e.target.name]: e.target.value,
         });
     };
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
-        // Here you would handle user registration logic (e.g., API call)
-        // For now, we are just redirecting to the login page
-        navigate("/login?type=student");
+        try {
+            const response = await fetch('/api/UserRegistration', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                StudentName : registrationDetails.StudentName,
+                StudentRegNo : registrationDetails.StudentRegNo,
+                StudentDOB : registrationDetails.StudentDOB,
+                StudentEmail : registrationDetails.StudentEmail,
+                StudentPassword:registrationDetails.StudentPassword,
+                StudentCGPA: registrationDetails.StudentCGPA,
+                StudentDEPT: registrationDetails.StudentDEPT,
+                StudentPlatform: registrationDetails.StudentPlatform,
+                StudentPlacedInfo : registrationDetails.StudentPlacedInfo,
+                StudentSkills : registrationDetails.StudentSkills,
+              })
+            }) 
+            const result = await response.json();
+      
+            if (response.ok) {
+              // Navigate on successful registration
+              navigate("/login?type=student");
+            } else {
+              // Handle the error response
+              console.error(result.message || "An unknown error occurred during registration.");
+              alert(result.message || "Registration failed. Please try again.");
+            }
+            
+          } catch (error) {
+            console.error('Error during registration:', error);
+          }
+        
     };
 
     return (
@@ -45,15 +78,26 @@ const Register = () => {
                         required
                         placeholder="Enter your username"
                     />
-                     {/* Date of Birth (DOB) */}
+                   
+                     
                      <TextInput
-                        label="Date of Birth"
-                        name="dob"
-                        type="date"
-                        value={registrationDetails.dob}
+                        label="RollNo"
+                        name="StudentRegNo" // Fix name to match state key
+                        type="text"
+                        value={registrationDetails.StudentRegNo}
                         onChange={handleChange}
                         required
-                    />
+                        placeholder="Enter your RegNo"
+                        />
+
+                        <TextInput
+                        label="Date of Birth"
+                        name="StudentDOB" // Fix name to match state key
+                        type="date"
+                        value={registrationDetails.StudentDOB}
+                        onChange={handleChange}
+                        required
+                        />
 
                     {/* Email */}
                     <TextInput
@@ -79,9 +123,9 @@ const Register = () => {
                     {/* CGPA */}
                     <TextInput
                         label="CGPA"
-                        name="CGPA"
+                        name="StudentCGPA"
                         type="text"
-                        value={registrationDetails.CGPA}
+                        value={registrationDetails.StudentCGPA}
                         onChange={handleChange}
                         required
                         placeholder="Enter your CGPA"
@@ -89,9 +133,9 @@ const Register = () => {
                     {/* HackerRank Profile Link */}
                     <TextInput
                         label="Department"
-                        name="DepartmentName"
+                        name="StudentDEPT"
                         type="text"
-                        value={registrationDetails.DepartmentName}
+                        value={registrationDetails.StudentDEPT}
                         onChange={handleChange}
                         required
                         placeholder="Enter your Department Name"
@@ -100,9 +144,9 @@ const Register = () => {
                     {/* LeetCode Profile Link */}
                     <TextInput
                         label="LeetCode Profile Link"
-                        name="PlatformLink"
+                        name="StudentPlatform"
                         type="text"
-                        value={registrationDetails.PlatformLink}
+                        value={registrationDetails.StudentPlatform}
                         onChange={handleChange}
                         required
                         placeholder="Enter your Online Platform link"
@@ -111,9 +155,9 @@ const Register = () => {
                     {/* Placement Status */}
                             <TextInput
                                 label="Placement Status"
-                                name="placedInfo"
+                                name="StudentPlacedInfo"
                                 type="text"
-                                checked={registrationDetails.placedinfo}
+                                checked={registrationDetails.StudentPlacedInfo}
                                 onChange={handleChange}
                                 required
                                 placeholder="Placed Yes/No"
@@ -123,9 +167,9 @@ const Register = () => {
                     {/* Number of Projects */}
                     <TextInput
                         label="Enter your skills"
-                        name="skills"
+                        name="StudentSkills"
                         type="text"
-                        value={registrationDetails.skills}
+                        value={registrationDetails.StudentSkills}
                         onChange={handleChange}
                         required
                         placeholder="List your skills separated by commas"
@@ -137,6 +181,7 @@ const Register = () => {
                     {/* Register Button */}
                     <Button
                         type="submit"
+                        onClick={handleRegister}
                         className="w-full text-lg px-8 py-3 font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300"
                     >
                         Register

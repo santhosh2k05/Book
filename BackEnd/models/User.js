@@ -4,38 +4,43 @@ const   user = mongoose.Schema({
         type: String ,
         required: true
     },
-    Studentpassword :{
-            type : String,
-            required : true 
+    StudentRegNo  :{
+        type : String ,
+        required : true
     },
-    StudentRegNo :{
-            type : String,
-            required : true
+    StudentDOB: {
+        type : String,
+        required : true
     },
     StudentEmail : {
         type: String,
         required : true
     },
-    CGPA :{
+    StudentPassword :{
             type : String,
-            required : false
+            required : true 
     },
-    DOB  :{
-        type : String ,
-        required : false 
-    },
-    Skills:{
+    StudentCGPA :{
             type : String,
-            required : false
+            required : true
     },
-    placedInfo    :{
-        type : String,
-        required : false 
-    }   ,
-    UserDEPT :{
+    StudentDEPT :{
         type : String,
         required : true
-    }
+    },
+    StudentPlatform: {
+        type : String ,
+        required : true
+    },
+    StudentPlacedInfo :{
+        type : String,
+        required : true
+    },
+    StudentSkills:{
+            type : String,
+            required : true
+    },
+  
 
 
 },{

@@ -9,7 +9,7 @@ Areg.post('/', async(req ,res)=>{
         !req.body.AdminName ||
         !req.body.AdminPassword ||
         !req.body.AdminEmail||
-        !req.body.AdminPhone|
+        !req.body.AdminPhone||
         !req.body.AdminDEPT
     ){
         console.log(req.body)
@@ -26,7 +26,9 @@ Areg.post('/', async(req ,res)=>{
 
     }
     const Admins = await AdminPage.create(Admin)
-    return res.status(201).send(Admins)
+    return res.status(201).send({
+        message : "Admin Added"
+    })
 }
 catch(error){
    console.log("error")
