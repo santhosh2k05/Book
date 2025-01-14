@@ -20,26 +20,21 @@ const StudentDashboard = () => {
           </Button>
         </Link>
 
-      
-      <Link to="/application-status" className="w-full">
-        <Button gradientDuoTone="cyanToBlue" className="w-full py-4 text-lg">
-          Check Application Status
-        </Button>
-      </Link>
-
-      
-      <Link to={{pathname: "/StudentDashboard"}} className="w-full">
-        <Button gradientDuoTone="purpleToBlue" className="w-full py-4 text-lg" >
-          View Profile
-        </Button>
-      </Link>
-
         
-        <Link to={{pathname:"/Profile"}} className="w-full" aria-label="View Profile">
-          <Button gradientDuoTone="cyanToBlue" className="w-full py-4 text-lg">
+        <Link to="/view-profile" className="w-full">
+          <Button gradientDuoTone="cyanToBlue" className="w-full py-4 text-lg mb-4">
             View Profile
           </Button>
         </Link>
+
+        
+      <Link to="/logout" className="w-full">
+        <Button gradientDuoTone="cyanToBlue" className="w-full py-4 text-lg">
+          Logout
+        </Button>
+      </Link>
+
+      
       </div>
 
     </div>

@@ -74,6 +74,11 @@ const PlacementOpportunities = () => {
             </Card>
           ))}
         </div>
+        <div className="mt-6 text-center">
+        <Button onClick={() => window.history.back()} gradientDuoTone="cyanToBlue" className="w-full py-4 text-lg">
+          Back
+        </Button>
+      </div>
       </div>
     </div>
   );
