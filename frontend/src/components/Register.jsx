@@ -88,24 +88,24 @@ const Register = () => {
                     />
                     {/* HackerRank Profile Link */}
                     <TextInput
-                        label="HackerRank Profile Link"
-                        name="hackerRankLink"
+                        label="Department"
+                        name="Department name"
                         type="text"
                         value={registrationDetails.hackerRankLink}
                         onChange={handleChange}
                         required
-                        placeholder="Enter your HackerRank profile link"
+                        placeholder="Enter your Department Name"
                     />
 
                     {/* LeetCode Profile Link */}
                     <TextInput
                         label="LeetCode Profile Link"
-                        name="leetcodeLink"
+                        name="Online Coding Platform link"
                         type="text"
                         value={registrationDetails.leetcodeLink}
                         onChange={handleChange}
                         required
-                        placeholder="Enter your LeetCode profile link"
+                        placeholder="Enter your Online Platform link"
                     />
 
                     {/* Placement Status */}

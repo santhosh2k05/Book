@@ -39,9 +39,9 @@ const PlacementOpportunities = () => {
   ];
 
   return (
-    <div className="bg-gradient-to-r from-blue-400 to-cyan-400 min-h-screen text-white">
+    <div className="bg-gradient-to-r bg-black text-white">
       <div className="container mx-auto py-10">
-        <h1 className="text-4xl font-bold text-center mb-8">
+        <h1 className="text-4xl font-bold text-center text-white mb-8">
           Placement Opportunities
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -66,7 +66,7 @@ const PlacementOpportunities = () => {
                   <strong>Location:</strong> {opportunity.location}
                 </p>
                 <div className="mt-4">
-                  <Button gradientDuoTone="cyanToBlue" className="w-full">
+                  <Button className="w-full text-lg px-8 py-3 mb-5 bg-black font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300">
                     Apply Now
                   </Button>
                 </div>
@@ -74,8 +74,8 @@ const PlacementOpportunities = () => {
             </Card>
           ))}
         </div>
-        <div className="mt-6 text-center">
-        <Button onClick={() => window.history.back()} gradientDuoTone="cyanToBlue" className="w-full py-4 text-lg">
+        <div className="mt-6 w-3/4 px-20 py-6 flex justify-center">
+        <Button onClick={() => window.history.back()} className="w-full text-lg px- py-3 mb-5 font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300">
           Back
         </Button>
       </div>

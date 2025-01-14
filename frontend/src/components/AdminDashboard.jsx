@@ -15,7 +15,6 @@ const AdminDashboard = () => {
       <div className="flex flex-col md:flex-row items-center justify-center gap-6 w-full max-w-2xl">
         <Link to="/manage-students">
           <Button
-            gradientDuoTone="blueToGreen"
             className="w-full text-lg px-8 py-3 font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300"
           >
             Manage Students
