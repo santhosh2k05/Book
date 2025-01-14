@@ -7,7 +7,7 @@ interface Student {
   personalInfo: string;               
   skills: string[];
   cgpa: number;
-  isPlaced: boolean;
+  isPlaced: String;
   placementLink?: string;
 }
 

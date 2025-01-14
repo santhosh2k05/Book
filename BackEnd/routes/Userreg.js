@@ -14,7 +14,7 @@ Ureg.post('/', async(req,res)=>{
            !req.body.placedInfo
             ){
            return res.status(404).send({
-               message :"send all fields   "
+               message :"send all fields"
            })
        }
        const student ={
