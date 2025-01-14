@@ -6,11 +6,11 @@ const AdminRegister = () => {
   const navigate = useNavigate();
 
   const [adminDetails, setAdminDetails] = useState({
-    AdminName: "",
-    AdminEmail: "",
-    AdminPassword: "",
-    AdminPhone: "",
-    AdminDEPT: ""
+    Name: "",
+    Email: "",
+    Password: "",
+    Phone: "",
+    DEPT: ""
   });
 
   const handleChange = (e) => {
@@ -24,14 +24,20 @@ const AdminRegister = () => {
     e.preventDefault();
     
     try {
-      const response = await fetch('/api/admin/register', {
+      const response = await fetch('/api/AdminRegistration', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(adminDetails)
-      });
+        body: JSON.stringify({
+        AdminName: setAdminDetails.Name,
+        AdminEmail: setAdminDetails.Email,
+        AdminPassword: setAdminDetails.Password,
+        AdminPhone: setAdminDetails.Phone,
+        AdminDEPT: setAdminDetails.DEPT
 
+      })
+      }) 
       const result = await response.json();
 
       if (response.ok) {
@@ -39,8 +45,10 @@ const AdminRegister = () => {
         navigate("/login?type=admin");
       } else {
         // Handle the error response
-        console.log(result.message);
+        console.error(result.message || "An unknown error occurred during registration.");
+        alert(result.message || "Registration failed. Please try again.");
       }
+      
     } catch (error) {
       console.error('Error during registration:', error);
     }
@@ -55,7 +63,7 @@ const AdminRegister = () => {
             label="Full Name"
             name="AdminName"
             type="text"
-            value={adminDetails.AdminName}
+            value={adminDetails.Name}
             onChange={handleChange}
             required
             placeholder="Enter your full name"
@@ -64,7 +72,7 @@ const AdminRegister = () => {
             label="Email"
             name="AdminEmail"
             type="email"
-            value={adminDetails.AdminEmail}
+            value={adminDetails.Email}
             onChange={handleChange}
             required
             placeholder="Enter your email"
@@ -73,7 +81,7 @@ const AdminRegister = () => {
             label="Department"
             name="AdminDEPT"
             type="text"
-            value={adminDetails.AdminDEPT}
+            value={adminDetails.DEPT}
             onChange={handleChange}
             required
             placeholder="Enter your department"
@@ -82,7 +90,7 @@ const AdminRegister = () => {
             label="Password"
             name="AdminPassword"
             type="password"
-            value={adminDetails.AdminPassword}
+            value={adminDetails.Password}
             onChange={handleChange}
             required
             placeholder="Enter your password"
@@ -91,13 +99,14 @@ const AdminRegister = () => {
             label="Phone Number"
             name="AdminPhone"
             type="text"
-            value={adminDetails.AdminPhone}
+            value={adminDetails.Phone}
             onChange={handleChange}
             required
             placeholder="Enter your phone number"
           />
           <Button
             type="submit"
+            onClick={handleRegister}
             className="w-full text-lg px-8 py-3 font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300"
           >
             Register
