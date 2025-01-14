@@ -6,13 +6,13 @@ const AdminRegister = () => {
   const navigate = useNavigate();
 
   const [adminDetails, setAdminDetails] = useState({
-    name: "",
-    email: "",
-    password: "",
-    phoneNumber: "",
+    AdminName: "",
+    AdminEmail: "",
+    AdminPassword: "",
+    AdminPhone: "",
+    AdminDEPT: ""
   });
 
-  
   const handleChange = (e) => {
     setAdminDetails({
       ...adminDetails,
@@ -20,10 +20,30 @@ const AdminRegister = () => {
     });
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-   
-    navigate("/login?type= admin");
+    
+    try {
+      const response = await fetch('/api/admin/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(adminDetails)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Navigate on successful registration
+        navigate("/login?type=admin");
+      } else {
+        // Handle the error response
+        console.log(result.message);
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
+    }
   };
 
   return (
@@ -51,16 +71,16 @@ const AdminRegister = () => {
           />
           <TextInput
             label="Department"
-            name="AdminDep"
-            type="Department"
-            value={adminDetails.AdminEmail}
+            name="AdminDEPT"
+            type="text"
+            value={adminDetails.AdminDEPT}
             onChange={handleChange}
             required
             placeholder="Enter your department"
           />
           <TextInput
-            label="AdminPassword"
-            name="password"
+            label="Password"
+            name="AdminPassword"
             type="password"
             value={adminDetails.AdminPassword}
             onChange={handleChange}
@@ -68,8 +88,8 @@ const AdminRegister = () => {
             placeholder="Enter your password"
           />
           <TextInput
-            label="AdminPhone"
-            name="phoneNumber"
+            label="Phone Number"
+            name="AdminPhone"
             type="text"
             value={adminDetails.AdminPhone}
             onChange={handleChange}

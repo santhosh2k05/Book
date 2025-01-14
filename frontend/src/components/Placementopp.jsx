@@ -73,12 +73,13 @@ const PlacementOpportunities = () => {
               </div>
             </Card>
           ))}
+          
         </div>
         <div className="mt-6 w-3/4 px-20 py-6 flex justify-center">
         <Button onClick={() => window.history.back()} className="w-full text-lg px- py-3 mb-5 font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300">
           Back
         </Button>
-      </div>
+        </div>
       </div>
     </div>
   );

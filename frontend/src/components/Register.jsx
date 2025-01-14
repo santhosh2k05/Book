@@ -40,7 +40,7 @@ const Register = () => {
                         label="Username"
                         name="StudentName"
                         type="text"
-                        value={registrationDetails.username}
+                        value={registrationDetails.StudentName}
                         onChange={handleChange}
                         required
                         placeholder="Enter your username"
@@ -60,7 +60,7 @@ const Register = () => {
                         label="Email"
                         name="StudentEmail"
                         type="email"
-                        value={registrationDetails.email}
+                        value={registrationDetails.StudentEmail}
                         onChange={handleChange}
                         required
                         placeholder="Enter your email"
@@ -71,7 +71,7 @@ const Register = () => {
                         label="Password"
                         name="StudentPassword"
                         type="password"
-                        value={registrationDetails.password}
+                        value={registrationDetails.StudentPassword}
                         onChange={handleChange}
                         required
                         placeholder="Enter your password"
@@ -81,7 +81,7 @@ const Register = () => {
                         label="CGPA"
                         name="CGPA"
                         type="text"
-                        value={registrationDetails.cgpa}
+                        value={registrationDetails.CGPA}
                         onChange={handleChange}
                         required
                         placeholder="Enter your CGPA"
@@ -89,9 +89,9 @@ const Register = () => {
                     {/* HackerRank Profile Link */}
                     <TextInput
                         label="Department"
-                        name="Department name"
+                        name="DepartmentName"
                         type="text"
-                        value={registrationDetails.hackerRankLink}
+                        value={registrationDetails.DepartmentName}
                         onChange={handleChange}
                         required
                         placeholder="Enter your Department Name"
@@ -100,9 +100,9 @@ const Register = () => {
                     {/* LeetCode Profile Link */}
                     <TextInput
                         label="LeetCode Profile Link"
-                        name="Online Coding Platform link"
+                        name="PlatformLink"
                         type="text"
-                        value={registrationDetails.leetcodeLink}
+                        value={registrationDetails.PlatformLink}
                         onChange={handleChange}
                         required
                         placeholder="Enter your Online Platform link"
@@ -113,7 +113,7 @@ const Register = () => {
                                 label="Placement Status"
                                 name="placedInfo"
                                 type="text"
-                                checked={registrationDetails.Placement}
+                                checked={registrationDetails.placedinfo}
                                 onChange={handleChange}
                                 required
                                 placeholder="Placed Yes/No"

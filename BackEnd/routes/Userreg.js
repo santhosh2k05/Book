@@ -1,44 +1,45 @@
 import express from "express";
-import UserPage from "../models/User.js"; 
- 
-const Ureg = express.Router();
-Ureg.post('/', async(req,res)=>{
-    try{
-       if(
-           !req.body.StudentName||
-           !req.body.Studentpassword || 
-           !req.body.StudentRegNo||
-           !req.body.StudentEmail||
-           !req.body.CGPA ||
-           !req.body.DOB||
-           !req.body.skills||
-           !req.body.placedInfo||
-           !req.body.UserDEPT
-            ){
-           return res.status(404).send({
-               message :"send all fields"
-           })
-       }
-       const student ={
-           StudentName: req.body.StudentName,
-           Studentpassword : req.body.Studentpassword,
-           StudentRegNo : req.body.StudentRegNo,
-           StudentEmail : req.body.StudentEmail,
-           StudentCGPA : req.body.CGPA,
-           StudentDOB : req.body.DOB,
-           StudentSkills : req.body.skills,
-           StudentplacedInfo : req.body.placedInfo,
-           StudentDEPT : req.body.UserDEPT
+import AdminPage from "../models/Admin.js"; 
 
+const Areg = express.Router();
 
-       }
-       const students= await UserPage.create(student)
-       return res.status(201).send(students)
+Areg.post('/', async(req ,res)=>{
+    try {
+        // Validation to ensure all fields are provided
+        if(
+            !req.body.AdminName ||
+            !req.body.AdminPassword ||
+            !req.body.AdminEmail ||
+            !req.body.AdminPhone ||
+            !req.body.AdminDEPT
+        ){
+            return res.status(400).send({
+                message: "Please fill in all fields"
+            });
+        }
+
+        // Creating an admin object from the request body
+        const Admin = {
+            AdminName: req.body.AdminName,
+            AdminPassword: req.body.AdminPassword,
+            AdminEmail: req.body.AdminEmail,
+            AdminPhone: req.body.AdminPhone,
+            AdminDEPT: req.body.AdminDEPT
+        };
+
+        const newAdmin = await AdminPage.create(Admin);
+
+        return res.status(201).send({
+            message: "Admin registered successfully!",
+            admin: newAdmin
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            message: "An error occurred",
+            error: error.message
+        });
     }
-    catch(error){
-       console.log("error")
-       res.status(500).send({message :error.message})
-    }
+});
 
-})
-export default Ureg;
+export default Areg;
