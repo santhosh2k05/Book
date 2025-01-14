@@ -13,20 +13,43 @@ interface Student {
 
 const StudentList = () => {
   const [students, setStudents] = useState<Student[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/students");
+        // Retrieve token from localStorage
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("Unauthorized access. Please log in.");
+          setLoading(false);
+          return;
+        }
+
+        // Fetch student details
+        const response = await fetch("http://localhost:5000/api/students", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Send the JWT token in Authorization header
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch student data.");
+        }
+
         const data = await response.json();
         setStudents(data);
-      } catch (error) {
-        console.error("Error fetching student data:", error);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Unknown error occurred.");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchStudents();
   }, []);
+
 
   return (
     <div className="bg-gray-100 min-h-screen p-10">

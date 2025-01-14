@@ -52,7 +52,8 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gradient-to-r bg-black">
-      <div className="w-full max-w-md p-6 bg-slate-500 rounded-lg shadow-lg">
+      <div className="border border-white p-8 rounded-lg" >
+      <div className="w-full max-w-md p-6 bg-black rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-6 text-white">
           {type === "student" ? "Student Login" : "Admin Login"}
         </h2>
@@ -78,28 +79,29 @@ const Login = () => {
           <Button
             type="submit"
             gradientDuoTone="black"
-            className="w-full py-3 bg-white"
+            className="w-full text-lg px-8 py-3 font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300"
           >
             Login
           </Button>
         </form>
 
         {type === "student" && (
-          <p className="mt-4 text-center">
+          <p className="mt-4 text-center text-white">
             Are you a new user?{" "}
-            <Link to="/register" className="text-black-600 hover:underline">
+            <Link to="/register" className="text-white hover:underline">
               Register here
             </Link>
           </p>
         )}
         {type === "admin" && (
-          <p className="mt-4 text-center">
+          <p className="mt-4 text-center text-white">
             Are you a new admin?{" "}
             <Link to="/AdminRegister" className="text-white hover:underline">
               Register here
             </Link>
           </p>
         )}
+      </div>
       </div>
     </div>
   );

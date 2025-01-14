@@ -7,7 +7,7 @@ import ProfileChecker from "./Profile";
 const StudentDashboard = () => {
   return (
     <div className="flex flex-col items-start justify-start min-h-screen bg-gradient-to-r from-blue-400 to-cyan-400 text-white p-8">
-      <h1 className="text-5xl font-bold mb-6">PLACEMENT CONNECT</h1> {/* Header */}
+      <h1 className="text-5xl font-bold mb-6">PLACEMENT CONNECT</h1> 
       
       <p className="text-lg mb-6 text-left max-w-lg">
         Welcome to the student dashboard! Choose from the following options to view placement opportunities, check your application status, or update your profile.
