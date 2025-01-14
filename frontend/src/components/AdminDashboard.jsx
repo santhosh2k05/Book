@@ -8,17 +8,24 @@ const AdminDashboard = () => {
       className="flex flex-col items-center justify-center min-h-screen bg-black to-purple-500 text-white p-8"
     >
       <h1 className="text-6xl font-bold mb-6 text-rose-600">Admin Dashboard</h1>
-      <p className="text-lg mb-8">
-        Manage students, companies, and placement statistics.
+      <p className="text-lg mb-12 text-center">
+        Manage students and placement statistics.
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl">
+      
+      <div className="flex flex-col md:flex-row items-center justify-center gap-6 w-full max-w-2xl">
         <Link to="/manage-students">
-          <Button gradientDuoTone="blueToGreen" className="w-full py-4 text-lg">
+          <Button
+            gradientDuoTone="blueToGreen"
+            className="w-full text-lg px-8 py-3 font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300"
+          >
             Manage Students
           </Button>
         </Link>
         <Link to="/view-statistics">
-          <Button gradientDuoTone="purpleToBlue" className="w-full py-4 text-lg">
+          <Button
+            gradientDuoTone="purpleToBlue"
+            className="w-full text-lg px-8 py-3 font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300"
+          >
             View Statistics
           </Button>
         </Link>
