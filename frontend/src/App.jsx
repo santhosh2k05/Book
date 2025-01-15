@@ -10,6 +10,7 @@ import AdminRegister from "./components/AdminRegister";
 import ProfileChecker from "./components/Profile";
 import StudentList from   "./components/Studentlogin"
 import Adminlogin from  "./components/Adminlogin";
+import PlacementDashboard from "./components/statistics";
 const App = () => {
   return (
     <Router>
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/" element={<LandingPage/>} />
         <Route path="/view-profile" element={<StudentList/>}/>
         <Route path="/manage-students" element={<Adminlogin />}/>
+        <Route path="/view" element={<PlacementDashboard />}/>
       </Routes>
     </Router>
   )

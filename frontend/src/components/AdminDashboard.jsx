@@ -20,9 +20,8 @@ const AdminDashboard = () => {
             Manage Students
           </Button>
         </Link>
-        <Link to="/view-statistics">
+        <Link to="/view">
           <Button
-            gradientDuoTone="purpleToBlue"
             className="w-full text-lg px-8 py-3 font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300"
           >
             View Statistics

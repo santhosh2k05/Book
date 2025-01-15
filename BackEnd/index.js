@@ -35,4 +35,3 @@ app.use('/api/AdminRegistration',Areg)
 app.use('/api/Admin' , Admin)
 app.use('/api/User', User)
 
-
