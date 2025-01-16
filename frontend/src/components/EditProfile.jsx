@@ -1,51 +1,40 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Layout from "./Layout";
 import Card from "./ui/Card";
 import Button from "./ui/Button";
 
-const Register = () => {
+const EditProfile = () => {
   const navigate = useNavigate();
+  const userData = JSON.parse(localStorage.getItem('user') || '{}');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
-    StudentName: "",
-    StudentRegNo: "",
-    StudentEmail: "",
-    StudentPassword: "",
-    StudentDEPT: "",
-    StudentCGPA: "",
-    StudentSkills: "",
-    StudentPhone: "",
-    StudentAddress: "",
-    StudentDOB: "",
-    StudentGender: "",
-    StudentYear: "",
-    StudentSemester: "",
-    StudentSection: "",
-    StudentBatch: "",
-    StudentPlacedInfo: false,
-    StudentCompany: ""
+    StudentName: userData.StudentName || '',
+    StudentEmail: userData.StudentEmail || '',
+    StudentDEPT: userData.StudentDEPT || '',
+    StudentCGPA: userData.StudentCGPA || '',
+    StudentSkills: userData.StudentSkills || '',
+    StudentRegNo: userData.StudentRegNo || '',
+    StudentPhone: userData.StudentPhone || '',
+    StudentAddress: userData.StudentAddress || '',
+    StudentDOB: userData.StudentDOB || '',
+    StudentGender: userData.StudentGender || '',
+    StudentYear: userData.StudentYear || '',
+    StudentSemester: userData.StudentSemester || '',
+    StudentSection: userData.StudentSection || '',
+    StudentBatch: userData.StudentBatch || '',
+    StudentLinkedIn: userData.StudentLinkedIn || '',
+    StudentGitHub: userData.StudentGitHub || '',
+    StudentPortfolio: userData.StudentPortfolio || '',
   });
 
   const handleChange = (e) => {
-    const { name, value, type } = e.target;
-    
-    // Special handling for radio buttons
-    if (type === 'radio' && name === 'StudentPlacedInfo') {
-      setFormData(prev => ({
-        ...prev,
-        [name]: value === 'true', // Convert string to boolean
-        // Clear company if not placed
-        StudentCompany: value === 'false' ? '' : prev.StudentCompany
-      }));
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        [name]: value
-      }));
-    }
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -54,38 +43,65 @@ const Register = () => {
     setError("");
 
     try {
-      const response = await fetch("/api/UserRegistration", {
-        method: "POST",
+      // Validate required fields
+      if (!formData.StudentName || !formData.StudentEmail || !formData.StudentRegNo) {
+        setError("Name, Email, and Registration Number are required");
+        setIsLoading(false);
+        return;
+      }
+
+      const response = await fetch(`/api/students/update/${formData.StudentRegNo}`, {
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          ...formData,
+          StudentPassword: userData.StudentPassword
+        })
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        navigate("/");
+        // Update localStorage
+        const updatedUserData = {
+          ...userData,
+          ...formData
+        };
+        localStorage.setItem('user', JSON.stringify(updatedUserData));
+        
+        // Show success message
+        alert("Profile updated successfully!");
+        navigate('/student-profile');
       } else {
-        setError(data.message || "Registration failed");
+        // Show specific error message from server
+        setError(data.message || "Failed to update profile");
+        console.error("Update failed:", data);
       }
     } catch (error) {
-      setError("An error occurred during registration");
+      console.error("Error updating profile:", error);
+      // Show more specific error message
+      setError(error.message || "An error occurred while updating profile. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Layout title="Student Registration" showLogout={false}>
+    <Layout title="Edit Profile">
       <div className="max-w-3xl mx-auto">
-        <Card>
-          <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
-            Student Registration
-          </h2>
+        <div className="mb-12">
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
+            Edit Profile
+          </h1>
+          <p className="text-lg text-gray-400">
+            Update your profile information
+          </p>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Personal Information */}
+        <Card className="mb-8">
+          <form onSubmit={handleSubmit} className="p-6 space-y-6">
             <div>
               <h3 className="text-lg font-semibold mb-4 bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
                 Personal Information
@@ -132,7 +148,6 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
                              focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
-                    required
                   />
                 </div>
 
@@ -146,7 +161,6 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
                              focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
-                    required
                   >
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
@@ -157,7 +171,6 @@ const Register = () => {
               </div>
             </div>
 
-            {/* Contact Information */}
             <div>
               <h3 className="text-lg font-semibold mb-4 bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
                 Contact Information
@@ -189,7 +202,6 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
                              focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
-                    required
                   />
                 </div>
 
@@ -204,13 +216,11 @@ const Register = () => {
                     rows="2"
                     className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
                              focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
-                    required
                   />
                 </div>
               </div>
             </div>
 
-            {/* Academic Information */}
             <div>
               <h3 className="text-lg font-semibold mb-4 bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
                 Academic Information
@@ -258,7 +268,6 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
                              focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
-                    required
                   />
                 </div>
 
@@ -273,7 +282,6 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
                              focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
-                    required
                   />
                 </div>
 
@@ -288,7 +296,6 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
                              focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
-                    required
                   />
                 </div>
 
@@ -303,93 +310,82 @@ const Register = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
                              focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
-                    required
                   />
                 </div>
               </div>
             </div>
 
-            {/* Password */}
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Password
-              </label>
-              <input
-                type="password"
-                name="StudentPassword"
-                value={formData.StudentPassword}
-                onChange={handleChange}
-                className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
-                         focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
-                required
-              />
-            </div>
-
-            {/* Placement Status */}
             <div>
               <h3 className="text-lg font-semibold mb-4 bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
-                Placement Status
+                Professional Links
               </h3>
-              <div className="flex gap-6">
-                <label className="flex items-center">
+              <div className="grid grid-cols-1 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    LinkedIn Profile
+                  </label>
                   <input
-                    type="radio"
-                    name="StudentPlacedInfo"
-                    value="false"
-                    checked={!formData.StudentPlacedInfo}
+                    type="url"
+                    name="StudentLinkedIn"
+                    value={formData.StudentLinkedIn}
                     onChange={handleChange}
-                    className="w-4 h-4 text-rose-500 border-gray-800 focus:ring-rose-500 focus:ring-offset-gray-900"
+                    className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
+                             focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
+                    placeholder="https://linkedin.com/in/username"
                   />
-                  <span className="ml-2 text-gray-300">Not Placed</span>
-                </label>
-                
-                <label className="flex items-center">
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    GitHub Profile
+                  </label>
                   <input
-                    type="radio"
-                    name="StudentPlacedInfo"
-                    value="true"
-                    checked={formData.StudentPlacedInfo}
+                    type="url"
+                    name="StudentGitHub"
+                    value={formData.StudentGitHub}
                     onChange={handleChange}
-                    className="w-4 h-4 text-rose-500 border-gray-800 focus:ring-rose-500 focus:ring-offset-gray-900"
+                    className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
+                             focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
+                    placeholder="https://github.com/username"
                   />
-                  <span className="ml-2 text-gray-300">Placed</span>
-                </label>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Portfolio Website
+                  </label>
+                  <input
+                    type="url"
+                    name="StudentPortfolio"
+                    value={formData.StudentPortfolio}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
+                             focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
+                    placeholder="https://yourportfolio.com"
+                  />
+                </div>
               </div>
             </div>
 
-            {/* Company field shows only if placed */}
-            {formData.StudentPlacedInfo && (
+            <div>
+              <h3 className="text-lg font-semibold mb-4 bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
+                Skills
+              </h3>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Company Name
+                  Skills (comma-separated)
                 </label>
-                <input
-                  type="text"
-                  name="StudentCompany"
-                  value={formData.StudentCompany || ''}
+                <textarea
+                  name="StudentSkills"
+                  value={formData.StudentSkills}
                   onChange={handleChange}
                   className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
                            focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
-                  required={formData.StudentPlacedInfo}
+                  rows="3"
+                  placeholder="React, Node.js, JavaScript, etc."
+                  required
                 />
               </div>
-            )}
-
-            {/* Skills */}
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Skills (comma-separated)
-              </label>
-              <textarea
-                name="StudentSkills"
-                value={formData.StudentSkills}
-                onChange={handleChange}
-                className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
-                         focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
-                rows="3"
-                placeholder="React, Node.js, JavaScript, etc."
-                required
-              />
             </div>
 
             {error && (
@@ -398,28 +394,22 @@ const Register = () => {
               </div>
             )}
 
-            <Button
-              type="submit"
-              variant="gradient"
-              className="w-full"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                  <span>Registering...</span>
-                </div>
-              ) : (
-                "Register"
-              )}
-            </Button>
-
-            <p className="text-center text-gray-400">
-              Already have an account?{" "}
-              <Link to="/" className="text-rose-500 hover:text-rose-400">
-                Login here
-              </Link>
-            </p>
+            <div className="flex justify-center gap-4">
+              <Button
+                variant="secondary"
+                onClick={() => navigate('/student-profile')}
+                type="button"
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="gradient"
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Saving...' : 'Save Changes'}
+              </Button>
+            </div>
           </form>
         </Card>
       </div>
@@ -427,4 +417,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default EditProfile; 

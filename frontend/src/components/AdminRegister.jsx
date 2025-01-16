@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import { Button, TextInput } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
+import Layout from "./Layout";
+import Card from "./ui/Card";
+import Button from "./ui/Button";
 
 const AdminRegister = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const [adminDetails, setAdminDetails] = useState({
-    Name: "",
-    Email: "",
-    Password: "",
-    Phone: "",
-    DEPT: ""
+    AdminName: "",
+    AdminEmail: "",
+    AdminPassword: "",
+    AdminPhone: "",
+    AdminDEPT: ""
   });
 
   const handleChange = (e) => {
@@ -18,11 +22,13 @@ const AdminRegister = () => {
       ...adminDetails,
       [e.target.name]: e.target.value,
     });
-    console.log(adminDetails)
+    setError("");
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError("");
     
     try {
       const response = await fetch('/api/AdminRegistration', {
@@ -30,90 +36,76 @@ const AdminRegister = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-        AdminName: adminDetails.AdminName,
-        AdminEmail: adminDetails.AdminEmail,
-        AdminPassword: adminDetails.AdminPassword,
-        AdminPhone: adminDetails.AdminPhone,
-        AdminDEPT: adminDetails.AdminDEPT
-        })
-      }) 
+        body: JSON.stringify(adminDetails)
+      });
+
       const result = await response.json();
 
       if (response.ok) {
-        // Navigate on successful registration
         navigate("/login?type=admin");
       } else {
-        // Handle the error response
-        console.error(result.message || "An unknown error occurred during registration.");
-        alert(result.message || "Registration failed. Please try again.");
+        setError(result.message || "Registration failed. Please try again.");
       }
-      
     } catch (error) {
-      console.error('Error during registration:', error);
+      setError('Error during registration. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const inputFields = [
+    { name: "AdminName", label: "Full Name", type: "text", placeholder: "Enter your full name" },
+    { name: "AdminEmail", label: "Email", type: "email", placeholder: "Enter your email" },
+    { name: "AdminDEPT", label: "Department", type: "text", placeholder: "Enter your department" },
+    { name: "AdminPassword", label: "Password", type: "password", placeholder: "Enter your password" },
+    { name: "AdminPhone", label: "Phone Number", type: "tel", placeholder: "Enter your phone number" }
+  ];
+
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-r bg-black">
-      <div className="w-full max-w-md bg-black shadow-lg border border-white p-8 rounded-lg">
-        <h2 className="text-2xl font-bold text-center text-white mb-6">Admin Registration</h2>
-        <form className="space-y-4" onSubmit={handleRegister}>
-          <TextInput
-            label="Full Name"
-            name="AdminName"
-            type="text"
-            value={adminDetails.AdminName}
-            onChange={handleChange}
-            required
-            placeholder="Enter your full name"
-          />
-          <TextInput
-            label="Email"
-            name="AdminEmail"
-            type="email"
-            value={adminDetails.AdminEmail}
-            onChange={handleChange}
-            required
-            placeholder="Enter your email"
-          />
-          <TextInput
-            label="Department"
-            name="AdminDEPT"
-            type="text"
-            value={adminDetails.AdminDEPT}
-            onChange={handleChange}
-            required
-            placeholder="Enter your department"
-          />
-          <TextInput
-            label="Password"
-            name="AdminPassword"
-            type="password"
-            value={adminDetails.AdminPassword}
-            onChange={handleChange}
-            required
-            placeholder="Enter your password"
-          />
-          <TextInput
-            label="Phone Number"
-            name="AdminPhone"
-            type="text"
-            value={adminDetails.AdminPhone}
-            onChange={handleChange}
-            required
-            placeholder="Enter your phone number"
-          />
-          <Button
-            type="submit"
-            onClick={handleRegister}
-            className="w-full text-lg px-8 py-3 font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300"
-          >
-            Register
-          </Button>
-        </form>
+    <Layout title="Admin Registration" showLogout={false}>
+      <div className="max-w-2xl mx-auto">
+        <Card>
+          <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
+            Admin Registration
+          </h2>
+
+          <form onSubmit={handleRegister} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {inputFields.map((field) => (
+                <div key={field.name}>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    {field.label}
+                  </label>
+                  <input
+                    type={field.type}
+                    name={field.name}
+                    value={adminDetails[field.name]}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
+                             focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
+                    placeholder={field.placeholder}
+                    required
+                  />
+                </div>
+              ))}
+            </div>
+
+            {error && (
+              <p className="text-rose-500 text-sm text-center">{error}</p>
+            )}
+
+            <Button
+              type="submit"
+              variant="gradient"
+              className="w-full"
+              disabled={isLoading}
+            >
+              {isLoading ? "Registering..." : "Register"}
+            </Button>
+          </form>
+        </Card>
       </div>
-    </div>
+    </Layout>
   );
 };
 

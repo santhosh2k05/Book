@@ -3,30 +3,53 @@ import UserPage from "../models/User.js";
 
 const User = express.Router();
 
-
 User.post("/", async (req, res) => {
   try {
-    console.log(req.body)
-    const { StudentName, Studentpassword } = req.body;
+    const { StudentName, StudentPassword } = req.body;
    
-    if (!StudentName || !Studentpassword) { 
-      return res.status(400).send({ message: "StudentName and Studentpassword are required" });
+    // Validate required fields
+    if (!StudentName || !StudentPassword) { 
+      return res.status(400).send({ 
+        message: "Username and password are required" 
+      });
     }
 
-   
+    // Find user by StudentName
     const user = await UserPage.findOne({ StudentName });
+    
+    // If user not found
     if (!user) {
-      return res.status(404).send({ message: "User not found" });
+      return res.status(404).send({ 
+        message: "User not found"  
+      });
     }
 
-    if (Studentpassword!== user.Studentpassword) {
-      return res.status(401).send({ message: "Invalid credentials" });
+    // Check password
+    if (StudentPassword !== user.StudentPassword) {
+      return res.status(401).send({ 
+        message: "Invalid credentials" 
+      });
     }
 
-    res.status(200).send({ message: "Login successful", user });
+    // Send user data without sensitive information
+    const userData = {
+      StudentName: user.StudentName,
+      StudentRegNo: user.StudentRegNo,
+      StudentEmail: user.StudentEmail,
+      StudentCGPA: user.StudentCGPA,
+      StudentDEPT: user.StudentDEPT,
+      StudentSkills: user.StudentSkills,
+      StudentPlacedInfo: user.StudentPlacedInfo
+    };
+
+    res.status(200).send({ 
+      message: "Login successful",
+      user: userData 
+    });
+
   } catch (error) {
-    console.error("Error during user login:", error.message);
-    res.status(500).send({ message: error.message });
+    console.error("Error during user login:", error);
+    res.status(500).send({ message: "Internal server error" });
   }
 });
 

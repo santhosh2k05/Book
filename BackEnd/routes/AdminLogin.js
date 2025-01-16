@@ -1,32 +1,52 @@
 import express from "express";
-import bcrypt from "bcrypt";
-import AdminPage from "../models/Admin.js"; 
+import AdminPage from "../models/Admin.js";
 
 const Admin = express.Router();
-
 
 Admin.post("/", async (req, res) => {
   try {
     const { AdminName, AdminPassword } = req.body;
 
-
+    // Validate required fields
     if (!AdminName || !AdminPassword) {
-      return res.status(400).send({ message: "AdminName and AdminPassword are required" });
+      return res.status(400).json({
+        message: "Username and password are required"
+      });
     }
 
+    // Find admin by AdminName
     const admin = await AdminPage.findOne({ AdminName });
+
+    // If admin not found
     if (!admin) {
-      return res.status(404).send({ message: "Admin not found" });
+      return res.status(404).json({
+        message: "Admin not found"
+      });
     }
 
-    if (AdminPassword!== admin.AdminPassword) {
-      return res.status(401).send({ message: "Invalid credentials" });
+    // Check password
+    if (AdminPassword !== admin.AdminPassword) {
+      return res.status(401).json({
+        message: "Invalid credentials"
+      });
     }
 
-    res.status(200).send({ message: "Login successful", admin });
+    // If login successful, return admin data (excluding sensitive info)
+    const adminData = {
+      AdminName: admin.AdminName,
+      // Add other fields you want to return
+    };
+
+    res.status(200).json({
+      message: "Login successful",
+      admin: adminData
+    });
+
   } catch (error) {
-    console.error("Error during admin login:", error.message);
-    res.status(500).send({ message: error.message });
+    console.error("Error during admin login:", error);
+    res.status(500).json({
+      message: "An error occurred during login. Please try again later."
+    });
   }
 });
 

@@ -1,109 +1,161 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { Button, TextInput } from "flowbite-react";
+import Layout from "./Layout";
+import Card from "./ui/Card";
+import Button from "./ui/Button";
 
 const Login = () => {
   const navigate = useNavigate();
   const { search } = useLocation();
-  const type = new URLSearchParams(search).get("type");
+  const type = new URLSearchParams(search).get("type") || "student";
 
-  const [credentials, setCredentials] = useState({ username: "", password: "" });
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: ""
+  });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value,
+    });
+    setError("");
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault(); 
-    if (type === "student") {
-      if(!credentials.username || !credentials.password) alert("Fields are Required")
-      const LoggedIn = await fetch("/api/User", {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {
+      // Construct the request body based on the login type
+      const requestBody = type === "admin" 
+        ? {
+            AdminName: credentials.username,
+            AdminPassword: credentials.password
+          }
+        : {
+            StudentName: credentials.username,
+            StudentPassword: credentials.password
+          };
+
+      const response = await fetch(`/api/${type === "admin" ? "Admin" : "User"}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          StudentName: credentials.username,
-          StudentPassword: credentials.password
-        })
-      })
-      console.log(LoggedIn)
-      if(LoggedIn.status == 404) alert("User Not Found");
-      else if(LoggedIn.status == 401) alert("Password Wrong");
-      else navigate("/student-dashboard")
-    } else if (type === "admin") {
-      if(!credentials.username || !credentials.password) alert("Fields are Required")
-        const LoggedIn = await fetch("/api/Admin", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            AdminName: credentials.username,
-            AdminPassword: credentials.password
-          })
-        })
-        console.log(LoggedIn)
-        if(LoggedIn.status == 404) alert("User Not Found");
-        else if(LoggedIn.status == 401) alert("Password Wrong");
-        else navigate("/admin-dashboard")
+        body: JSON.stringify(requestBody)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store user data in localStorage with correct structure
+        localStorage.setItem('user', JSON.stringify({
+          type,
+          ...(type === "admin" ? {
+            AdminName: data.admin.AdminName,
+          } : data.user)
+        }));
+        
+        // Navigate based on user type
+        navigate(type === "admin" ? "/admin-dashboard" : "/student-dashboard");
+      } else {
+        // Show specific error messages
+        if (response.status === 404) {
+          setError(`${type === "admin" ? "Admin" : "Student"} not found`);
+        } else if (response.status === 401) {
+          setError("Invalid credentials. Please check your username and password.");
+        } else {
+          setError(data.message || "Login failed. Please try again.");
+        }
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("An error occurred during login. Please try again later.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-r bg-black">
-      <div className="border border-white p-8 rounded-lg" >
-      <div className="w-full max-w-md p-6 bg-black rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center mb-6 text-white">
-          {type === "student" ? "Student Login" : "Admin Login"}
-        </h2>
-        <form className="space-y-4" onSubmit={handleLogin}>
-          <TextInput
-            label="Username"
-            name="username"
-            type="text"
-            value={credentials.username}
-            onChange={handleChange}
-            required
-            placeholder="Enter your username"
-          />
-          <TextInput 
-            label="Password"
-            name="password"
-            type="password"
-            value={credentials.password}
-            onChange={handleChange}
-            required
-            placeholder="Enter your password"
-          />
-          <Button
-            type="submit"
-            gradientDuoTone="black"
-            className="w-full text-lg px-8 py-3 font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300"
-          >
-            Login
-          </Button>
-        </form>
+    <Layout title="Login" showLogout={false}>
+      <div className="max-w-md mx-auto">
+        <Card>
+          <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
+            {type === "admin" ? "Admin Login" : "Student Login"}
+          </h2>
 
-        {type === "student" && (
-          <p className="mt-4 text-center text-white">
-            Are you a new user?{" "}
-            <Link to="/register" className="text-white hover:underline">
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Username
+              </label>
+              <input
+                type="text"
+                name="username"
+                value={credentials.username}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
+                         focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
+                placeholder={`Enter your ${type === "admin" ? "admin" : "student"} username`}
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={credentials.password}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
+                         focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            {error && (
+              <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/20">
+                <p className="text-rose-500 text-sm text-center">{error}</p>
+              </div>
+            )}
+
+            <Button
+              type="submit"
+              variant="gradient"
+              className="w-full"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                  <span>Logging in...</span>
+                </div>
+              ) : (
+                "Login"
+              )}
+            </Button>
+          </form>
+
+          <p className="mt-6 text-center text-gray-400">
+            Don't have an account?{" "}
+            <Link
+              to={type === "admin" ? "/admin-register" : "/register"}
+              className="text-rose-500 hover:text-rose-400"
+            >
               Register here
             </Link>
           </p>
-        )}
-        {type === "admin" && (
-          <p className="mt-4 text-center text-white">
-            Are you a new admin?{" "}
-            <Link to="/AdminRegister" className="text-white hover:underline">
-              Register here
-            </Link>
-          </p>
-        )}
+        </Card>
       </div>
-      </div>
-    </div>
+    </Layout>
   );
 };
 

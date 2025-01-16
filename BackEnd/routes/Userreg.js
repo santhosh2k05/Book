@@ -2,55 +2,66 @@ import express from "express";
 import AdminPage from "../models/Admin.js"; 
 import UserPage from "../models/User.js";
 
-const  Ureg = express.Router();
+const Ureg = express.Router();
 Ureg.use(express.json())
 
-Ureg.post('/', async(req ,res)=>{
+Ureg.post('/', async(req, res) => {
     try {
-        // Validation to ensure all fields are provided
-        if(
-            !req.body.StudentName ||
-            !req.body.StudentRegNo ||
-            !req.body.StudentDOB||
-            !req.body.StudentEmail ||
-            !req.body.StudentPassword||
-            !req.body.StudentCGPA||
-            !req.body.StudentDEPT||
-            !req.body.StudentPlatform ||
-            !req.body.StudentPlacedInfo||
-            !req.body.StudentSkills
-            
-        ){
-            console.log(req.body)
+        // Update required fields validation
+        const requiredFields = [
+            'StudentName',
+            'StudentRegNo',
+            'StudentEmail',
+            'StudentPassword',
+            'StudentDEPT',
+            'StudentCGPA',
+            'StudentSkills',
+            'StudentPhone',
+            'StudentAddress',
+            'StudentDOB',
+            'StudentGender',
+            'StudentYear',
+            'StudentSemester',
+            'StudentSection',
+            'StudentBatch'
+        ];
+
+        // Check for missing required fields
+        const missingFields = requiredFields.filter(field => !req.body[field]);
+
+        if (missingFields.length > 0) {
+            console.log('Missing fields:', missingFields);
             return res.status(400).send({
-                message: "Please fill in all fields"
+                message: "Please fill in all required fields",
+                missingFields: missingFields
             });
         }
 
-        // Creating an admin object from the request body
-        const User = {
-            StudentName :req.body.StudentName,
-            StudentRegNo : req.body.StudentRegNo,
-            StudentDOB: req.body.StudentDOB,
-            StudentEmail :req.body.StudentEmail ,
-            StudentPassword : req.body.StudentPassword,   
-            StudentCGPA :req.body.StudentCGPA,
-            StudentDEPT :req.body. StudentDEPT,
-            StudentPlatform: req.body.StudentPlatform,
-            StudentPlacedInfo:req.body.StudentPlacedInfo,
-            StudentSkills :req.body.StudentSkills
-        };
- 
-        const Users = await UserPage.create(User);
+        // Validate placement info
+        const isPlaced = req.body.StudentPlacedInfo === true || req.body.StudentPlacedInfo === 'true';
+        if (isPlaced && !req.body.StudentCompany) {
+            return res.status(400).send({
+                message: "Company name is required for placed students"
+            });
+        }
+
+        // Create new student with all fields
+        const student = new UserPage({
+            ...req.body,
+            StudentPlacedInfo: isPlaced,
+            StudentCompany: isPlaced ? req.body.StudentCompany : null
+        });
+
+        const Users = await UserPage.create(student);
 
         return res.status(201).send({
             message: "Student registered successfully!",
-            admin: Users
+            student: Users
         });
     } catch (error) {
         console.log(error);
         return res.status(500).send({
-            message: "An error occurred",
+            message: "An error occurred during registration",
             error: error.message
         });
     }
