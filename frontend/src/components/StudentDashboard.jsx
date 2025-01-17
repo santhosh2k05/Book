@@ -117,6 +117,17 @@ const StudentDashboard = () => {
   return (
     <Layout title="Student Dashboard">
       <div className="max-w-7xl mx-auto">
+        {/* Add placement status indicator below header */}
+        <div className="flex justify-end mb-4">
+          <span className={`px-3 py-1 rounded-full text-sm ${
+            userData.StudentPlacedInfo 
+              ? 'bg-green-500/10 text-green-500 border border-green-500/20' 
+              : 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20'
+          }`}>
+            {userData.StudentPlacedInfo ? 'Placed' : 'Not Placed'}
+          </span>
+        </div>
+
         {/* Welcome Section */}
         <div className="mb-12">
           <p className="text-2xl font-semibold mb-2 bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">

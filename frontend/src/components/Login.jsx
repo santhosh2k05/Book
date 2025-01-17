@@ -30,7 +30,6 @@ const Login = () => {
     setError("");
 
     try {
-      // Construct the request body based on the login type
       const requestBody = type === "admin" 
         ? {
             AdminName: credentials.username,
@@ -52,18 +51,19 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Store user data in localStorage with correct structure
+        // Store user data in localStorage with type and all user data
         localStorage.setItem('user', JSON.stringify({
           type,
           ...(type === "admin" ? {
             AdminName: data.admin.AdminName,
-          } : data.user)
+          } : {
+            ...data.user,  // Include all student data including StudentPlacedInfo
+            type: 'student' // Explicitly set type as student
+          })
         }));
         
-        // Navigate based on user type
         navigate(type === "admin" ? "/admin-dashboard" : "/student-dashboard");
       } else {
-        // Show specific error messages
         if (response.status === 404) {
           setError(`${type === "admin" ? "Admin" : "Student"} not found`);
         } else if (response.status === 401) {

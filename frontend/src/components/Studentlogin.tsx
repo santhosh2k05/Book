@@ -123,21 +123,21 @@ const StudentDetails = () => {
 
   return (
     <div className="bg-black min-h-screen p-10">
-  <div className="flex justify-between items-center mb-6">
-    {/* Title */}
-    <h1 className="text-3xl font-bold text-white whitespace-nowrap">
-      Welcome, {currentStudent.StudentName}
-    </h1>
-    
-    {/* Logout Button */}
-    <Link to="/logout">
-      <button
-        className="text-lg px-8 py-3 font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300"
-      >
-        Logout
-      </button>
-    </Link>
-  </div>
+      <div className="flex justify-between items-center mb-6">
+        {/* Title */}
+        <h1 className="text-3xl font-bold text-white whitespace-nowrap">
+          Welcome, {currentStudent.StudentName}
+        </h1>
+        
+        {/* Logout Button */}
+        <Link to="/logout">
+          <button
+            className="text-lg px-8 py-3 font-extrabold text-white border-2 border-white hover:shadow-lg hover:shadow-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transform hover:scale-105 transition-transform duration-300"
+          >
+            Logout
+          </button>
+        </Link>
+      </div>
 
       <table className="w-full border-collapse border border-gray-300">
         <tbody>
@@ -176,10 +176,6 @@ const StudentDetails = () => {
           <tr>
             <td className="border border-gray-300 p-2 font-bold">Rank</td>
             <td className="border border-gray-300 p-2">{rank}</td>
-          </tr>
-          <tr>
-            <td className="border border-gray-300 p-2 font-bold">Placement Status</td>
-            <td className="border border-gray-300 p-2">{currentStudent.StudentPlacedInfo ? "Placed" : "Not Placed"}</td>
           </tr>
         </tbody>
       </table>

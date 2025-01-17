@@ -6,50 +6,45 @@ const User = express.Router();
 User.post("/", async (req, res) => {
   try {
     const { StudentName, StudentPassword } = req.body;
-   
-    // Validate required fields
-    if (!StudentName || !StudentPassword) { 
-      return res.status(400).send({ 
-        message: "Username and password are required" 
-      });
-    }
 
-    // Find user by StudentName
-    const user = await UserPage.findOne({ StudentName });
-    
-    // If user not found
-    if (!user) {
-      return res.status(404).send({ 
-        message: "User not found"  
+    // Find student by StudentName
+    const student = await UserPage.findOne({ StudentName });
+
+    if (!student) {
+      return res.status(404).json({
+        message: "Student not found"
       });
     }
 
     // Check password
-    if (StudentPassword !== user.StudentPassword) {
-      return res.status(401).send({ 
-        message: "Invalid credentials" 
+    if (StudentPassword !== student.StudentPassword) {
+      return res.status(401).json({
+        message: "Invalid credentials"
       });
     }
 
-    // Send user data without sensitive information
+    // Send all necessary user data
     const userData = {
-      StudentName: user.StudentName,
-      StudentRegNo: user.StudentRegNo,
-      StudentEmail: user.StudentEmail,
-      StudentCGPA: user.StudentCGPA,
-      StudentDEPT: user.StudentDEPT,
-      StudentSkills: user.StudentSkills,
-      StudentPlacedInfo: user.StudentPlacedInfo
+      StudentName: student.StudentName,
+      StudentEmail: student.StudentEmail,
+      StudentRegNo: student.StudentRegNo,
+      StudentDEPT: student.StudentDEPT,
+      StudentCGPA: student.StudentCGPA,
+      StudentPlacedInfo: student.StudentPlacedInfo,
+      StudentCompany: student.StudentCompany,
+      // Add other fields you want to send
     };
 
-    res.status(200).send({ 
+    res.status(200).json({
       message: "Login successful",
-      user: userData 
+      user: userData
     });
 
   } catch (error) {
-    console.error("Error during user login:", error);
-    res.status(500).send({ message: "Internal server error" });
+    console.error("Error during login:", error);
+    res.status(500).json({
+      message: "An error occurred during login"
+    });
   }
 });
 
