@@ -7,6 +7,14 @@ Ureg.use(express.json())
 
 Ureg.post('/', async(req, res) => {
     try {
+        // Check if email already exists
+        const existingUser = await UserPage.findOne({ StudentEmail: req.body.StudentEmail });
+        if (existingUser) {
+            return res.status(400).json({
+                message: "Email already registered. Please use a different email."
+            });
+        }
+
         // Update required fields validation
         const requiredFields = [
             'StudentName',
@@ -54,13 +62,13 @@ Ureg.post('/', async(req, res) => {
 
         const Users = await UserPage.create(student);
 
-        return res.status(201).send({
+        return res.status(201).json({
             message: "Student registered successfully!",
             student: Users
         });
     } catch (error) {
-        console.log(error);
-        return res.status(500).send({
+        console.error("Registration error:", error);
+        return res.status(500).json({
             message: "An error occurred during registration",
             error: error.message
         });

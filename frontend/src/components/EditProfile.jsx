@@ -28,6 +28,8 @@ const EditProfile = () => {
     StudentLinkedIn: userData.StudentLinkedIn || '',
     StudentGitHub: userData.StudentGitHub || '',
     StudentPortfolio: userData.StudentPortfolio || '',
+    StudentPlacedInfo: userData.StudentPlacedInfo || false,
+    StudentCompany: userData.StudentCompany || "",
   });
 
   const handleChange = (e) => {
@@ -43,46 +45,58 @@ const EditProfile = () => {
     setError("");
 
     try {
-      // Validate required fields
-      if (!formData.StudentName || !formData.StudentEmail || !formData.StudentRegNo) {
-        setError("Name, Email, and Registration Number are required");
+      // Validate CGPA
+      const cgpa = parseFloat(formData.StudentCGPA);
+      if (isNaN(cgpa) || cgpa < 0 || cgpa > 10) {
+        setError("CGPA must be a number between 0 and 10");
         setIsLoading(false);
         return;
       }
+
+      // Validate company name if placed
+      if (formData.StudentPlacedInfo && !formData.StudentCompany?.trim()) {
+        setError("Company name is required when marked as placed");
+        setIsLoading(false);
+        return;
+      }
+
+      // Prepare the data
+      const updatedFormData = {
+        ...formData,
+        StudentCGPA: cgpa.toFixed(2),
+        StudentPlacedInfo: Boolean(formData.StudentPlacedInfo),
+        StudentCompany: formData.StudentPlacedInfo ? formData.StudentCompany.trim() : null
+      };
+
+      console.log("Sending update request:", updatedFormData); // Debug log
 
       const response = await fetch(`/api/students/update/${formData.StudentRegNo}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...formData,
-          StudentPassword: userData.StudentPassword
-        })
+        body: JSON.stringify(updatedFormData)
       });
 
       const data = await response.json();
+      console.log("Received response:", data); // Debug log
 
-      if (response.ok) {
-        // Update localStorage
-        const updatedUserData = {
-          ...userData,
-          ...formData
-        };
-        localStorage.setItem('user', JSON.stringify(updatedUserData));
-        
-        // Show success message
-        alert("Profile updated successfully!");
-        navigate('/student-profile');
-      } else {
-        // Show specific error message from server
-        setError(data.message || "Failed to update profile");
-        console.error("Update failed:", data);
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to update profile");
       }
+
+      // Update localStorage with new data
+      const updatedUserData = {
+        ...userData,
+        ...updatedFormData
+      };
+      localStorage.setItem('user', JSON.stringify(updatedUserData));
+      
+      alert("Profile updated successfully!");
+      navigate('/student-profile');
     } catch (error) {
       console.error("Error updating profile:", error);
-      // Show more specific error message
-      setError(error.message || "An error occurred while updating profile. Please try again.");
+      setError(error.message || "Failed to update profile. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -248,9 +262,16 @@ const EditProfile = () => {
                   <input
                     type="number"
                     step="0.01"
+                    min="0"
+                    max="10"
                     name="StudentCGPA"
                     value={formData.StudentCGPA}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === '' || (parseFloat(value) >= 0 && parseFloat(value) <= 10)) {
+                        handleChange(e);
+                      }
+                    }}
                     className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
                              focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
                     required
@@ -385,6 +406,54 @@ const EditProfile = () => {
                   placeholder="React, Node.js, JavaScript, etc."
                   required
                 />
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold mb-4 bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
+                Placement Status
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Are you placed?
+                  </label>
+                  <select
+                    name="StudentPlacedInfo"
+                    value={formData.StudentPlacedInfo ? "true" : "false"}
+                    onChange={(e) => {
+                      const isPlaced = e.target.value === "true";
+                      setFormData({
+                        ...formData,
+                        StudentPlacedInfo: isPlaced,
+                        StudentCompany: isPlaced ? formData.StudentCompany : ""
+                      });
+                    }}
+                    className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
+                             focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
+                  >
+                    <option value="false">Not Placed</option>
+                    <option value="true">Placed</option>
+                  </select>
+                </div>
+
+                {formData.StudentPlacedInfo && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Company Name
+                    </label>
+                    <input
+                      type="text"
+                      name="StudentCompany"
+                      value={formData.StudentCompany}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 bg-black/50 border border-gray-800 rounded-lg 
+                               focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors"
+                      placeholder="Enter company name"
+                      required={formData.StudentPlacedInfo}
+                    />
+                  </div>
+                )}
               </div>
             </div>
 

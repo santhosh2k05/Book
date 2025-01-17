@@ -54,3 +54,12 @@ app.use((err, req, res, next) => {
   });
 });
 
+// Add global error handling
+app.use((err, req, res, next) => {
+  console.error("Global error:", err);
+  res.status(500).json({
+    message: "An error occurred",
+    error: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
+  });
+});
+

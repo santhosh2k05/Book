@@ -39,15 +39,22 @@ const AdminRegister = () => {
         body: JSON.stringify(adminDetails)
       });
 
-      const result = await response.json();
+      const data = await response.json();
 
       if (response.ok) {
-        navigate("/login?type=admin");
+        alert("Admin registration successful! Please login to continue.");
+        navigate('/login?type=admin');
       } else {
-        setError(result.message || "Registration failed. Please try again.");
+        // Show specific error for duplicate email
+        if (response.status === 400 && data.message.includes("Email already registered")) {
+          setError("This email is already registered. Please use a different email or login.");
+        } else {
+          setError(data.message || "Registration failed");
+        }
       }
     } catch (error) {
-      setError('Error during registration. Please try again.');
+      console.error('Registration error:', error);
+      setError("An error occurred during registration");
     } finally {
       setIsLoading(false);
     }

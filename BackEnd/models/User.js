@@ -22,13 +22,29 @@ const UserSchema = new mongoose.Schema({
     trim: true
   },
   StudentDEPT: String,
-  StudentCGPA: String,
-  StudentSkills: String,
+  StudentCGPA: {
+    type: String,
+    validate: {
+      validator: function(v) {
+        const cgpa = parseFloat(v);
+        return !isNaN(cgpa) && cgpa >= 0 && cgpa <= 10;
+      },
+      message: props => `${props.value} is not a valid CGPA! Must be between 0 and 10`
+    },
+    required: true
+  },
+  StudentSkills: {
+    type: String,
+    trim: true
+  },
   StudentPhone: String,
   StudentAddress: String,
   StudentDOB: String,
   StudentGender: String,
-  StudentYear: String,
+  StudentYear: {
+    type: String,
+    enum: ["1", "2", "3", "4"]
+  },
   StudentSemester: String,
   StudentSection: String,
   StudentBatch: String,

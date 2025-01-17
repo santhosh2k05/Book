@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Footer from './ui/Footer';
 
 const Layout = ({ children, title, showLogout = true }) => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const Layout = ({ children, title, showLogout = true }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white relative">
       <header className="border-b border-gray-800">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
@@ -28,9 +29,11 @@ const Layout = ({ children, title, showLogout = true }) => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 pb-16">
         {children}
       </main>
+
+      <Footer />
     </div>
   );
 };

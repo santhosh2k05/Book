@@ -54,10 +54,10 @@ const Register = () => {
     setError("");
 
     try {
-      const response = await fetch("/api/UserRegistration", {
-        method: "POST",
+      const response = await fetch('/api/UserRegistration', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData)
       });
@@ -65,11 +65,18 @@ const Register = () => {
       const data = await response.json();
 
       if (response.ok) {
-        navigate("/");
+        alert("Registration successful! Please login to continue.");
+        navigate('/login?type=student');
       } else {
-        setError(data.message || "Registration failed");
+        // Show specific error for duplicate email
+        if (response.status === 400 && data.message.includes("Email already registered")) {
+          setError("This email is already registered. Please use a different email or login.");
+        } else {
+          setError(data.message || "Registration failed");
+        }
       }
     } catch (error) {
+      console.error('Registration error:', error);
       setError("An error occurred during registration");
     } finally {
       setIsLoading(false);

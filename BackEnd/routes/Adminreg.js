@@ -4,35 +4,27 @@ import AdminPage from "../models/Admin.js";
 const Areg = express.Router();
 Areg.post('/', async(req ,res)=>{
     try {
-        console.log("Function Calle")
-    if(
-        !req.body.AdminName ||
-        !req.body.AdminPassword ||
-        !req.body.AdminEmail||
-        !req.body.AdminPhone||
-        !req.body.AdminDEPT
-    ){
-        console.log(req.body)
-        return res.status(404).send({
-            message : "Message All Fields"  
-        })
-    }
-    const  Admin  ={
-        AdminName : req.body.AdminName,
-        AdminPassword : req.body.AdminPassword,
-        AdminEmail : req.body.AdminEmail,
-        AdminPhone : req.body.AdminPhone,
-        AdminDEPT : req.body.AdminDEPT
+        // Check if email already exists
+        const existingAdmin = await AdminPage.findOne({ AdminEmail: req.body.AdminEmail });
+        if (existingAdmin) {
+            return res.status(400).json({
+                message: "Email already registered. Please use a different email."
+            });
+        }
 
+        const admin = new AdminPage(req.body);
+        const Admins = await AdminPage.create(admin);
+
+        return res.status(201).json({
+            message: "Admin registered successfully!",
+            admin: Admins
+        });
+    } catch (error) {
+        console.error("Registration error:", error);
+        return res.status(500).json({
+            message: "An error occurred during registration",
+            error: error.message
+        });
     }
-    const Admins = await AdminPage.create(Admin)
-    return res.status(201).send({
-        message : "Admin Added"
-    })
-}
-catch(error){
-   console.log("error")
-   res.status(500).send({message :error.message})
-}
 })
 export default Areg;

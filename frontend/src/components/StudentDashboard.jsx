@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
 import Card from "./ui/Card";
 import Button from "./ui/Button";
+import getGreeting from "../utils/getGreeting";
 
 const DashboardCard = ({ title, description, to, icon: Icon, stats }) => (
   <Card className="flex flex-col h-full">
@@ -118,10 +119,13 @@ const StudentDashboard = () => {
       <div className="max-w-7xl mx-auto">
         {/* Welcome Section */}
         <div className="mb-12">
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
+          <p className="text-2xl font-semibold mb-2 bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
+            {getGreeting()},
+          </p>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
             Welcome, {studentData.name}
           </h1>
-          <p className="text-lg text-gray-400">
+          <p className="text-lg text-gray-400 mt-2">
             Track your placement journey and explore opportunities
           </p>
         </div>

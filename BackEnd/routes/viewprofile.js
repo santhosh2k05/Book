@@ -3,17 +3,49 @@ import UserPage from "../models/User.js";
 
 const uVist = express.Router();
 
-// GET route to fetch students based on placement status
+// GET route to fetch students with filters
 uVist.get("/", async (req, res) => {
   try {
-    const { placed } = req.query;
-    const filter = placed ? { StudentPlacedInfo: placed === 'true' } : {};
-    
+    const { skill, cgpa, department, batch } = req.query;
+    let filter = {};
+
+    // Build MongoDB query
+    if (department && department !== 'undefined' && department !== '') {
+      filter.StudentDEPT = department;
+    }
+
+    if (batch && batch !== 'undefined' && batch !== '') {
+      filter.StudentBatch = batch;
+    }
+
+    if (cgpa && cgpa !== 'undefined' && cgpa !== '') {
+      const cgpaNumber = parseFloat(cgpa);
+      if (!isNaN(cgpaNumber)) {
+        // Use $gte (greater than or equal) operator for CGPA
+        filter.StudentCGPA = { $gte: cgpaNumber.toString() };
+      }
+    }
+
+    if (skill && skill !== 'undefined' && skill !== '') {
+      // Case-insensitive search for skills
+      filter.StudentSkills = {
+        $regex: skill.trim(),
+        $options: 'i'
+      };
+    }
+
+    console.log("Applied filters:", filter);
+
     const students = await UserPage.find(filter);
+    console.log(`Found ${students.length} students`);
+
     res.status(200).json(students);
   } catch (error) {
     console.error("Error fetching students:", error);
-    res.status(500).json({ message: "Failed to fetch students" });
+    res.status(500).json({
+      message: "Failed to fetch students",
+      error: error.message
+    });
   }
 });
 
@@ -41,59 +73,61 @@ uVist.put("/update/:regNo", async (req, res) => {
     const { regNo } = req.params;
     const updates = req.body;
 
-    // Log the incoming request
-    console.log("Update Request:", {
-      regNo,
-      updates
-    });
-
-    // Validate required fields
-    if (!updates.StudentName || !updates.StudentEmail || !updates.StudentRegNo) {
-      return res.status(400).json({
-        message: "Required fields cannot be empty"
-      });
-    }
+    console.log("Received update request:", { regNo, updates }); // Debug log
 
     // Find the student first
-    let student = await UserPage.findOne({ StudentRegNo: regNo });
+    const student = await UserPage.findOne({ StudentRegNo: regNo });
 
     if (!student) {
+      console.log("Student not found:", regNo);
       return res.status(404).json({
         message: "Student not found"
       });
     }
 
-    // Update each field individually
-    for (const [key, value] of Object.entries(updates)) {
-      if (value !== undefined && value !== null) {
-        student[key] = value;
+    // Update fields
+    Object.keys(updates).forEach((key) => {
+      if (updates[key] !== undefined) {
+        student[key] = updates[key];
+      }
+    });
+
+    // Handle placement info specifically
+    if (updates.StudentPlacedInfo !== undefined) {
+      student.StudentPlacedInfo = Boolean(updates.StudentPlacedInfo);
+      if (student.StudentPlacedInfo && updates.StudentCompany) {
+        student.StudentCompany = updates.StudentCompany;
+      } else if (!student.StudentPlacedInfo) {
+        student.StudentCompany = null;
       }
     }
 
-    // Save with error handling
-    try {
-      await student.save();
-      console.log("Student updated successfully");
-      
-      res.status(200).json({
-        message: "Profile updated successfully",
-        student
-      });
-    } catch (saveError) {
-      console.error("Error saving student:", saveError);
-      res.status(500).json({
-        message: "Error saving updates",
-        error: saveError.message
-      });
-    }
+    // Save the updated student
+    await student.save();
+
+    console.log("Student updated successfully:", student);
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      student
+    });
 
   } catch (error) {
-    console.error("Update route error:", error);
+    console.error("Error updating student:", error);
     res.status(500).json({
       message: "Failed to update profile",
       error: error.message
     });
   }
+});
+
+// Add error handling middleware
+uVist.use((err, req, res, next) => {
+  console.error("Route error:", err);
+  res.status(500).json({
+    message: "An error occurred",
+    error: err.message
+  });
 });
 
 export default uVist;

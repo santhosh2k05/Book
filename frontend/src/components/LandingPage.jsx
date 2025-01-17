@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Footer from "./ui/Footer";
 
 const LandingPage = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white relative">
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-6xl font-bold mb-8 bg-gradient-to-r from-rose-500 to-purple-500 bg-clip-text text-transparent">
@@ -37,6 +38,8 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };
